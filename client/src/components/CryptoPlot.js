@@ -1,3 +1,4 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import { React, useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
@@ -24,6 +25,7 @@ ChartJS.register(
   Legend
 );
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   sec2: {
     width: "60%",
@@ -49,12 +51,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//generamos gráfica de los datos hidtóricos del precio de la moneda
 const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
-  const [dataCrypt, setDataCrypt] = useState();
-  const [days, setDays] = useState(2);
-  console.log(crypto);
-
   const classes = useStyles();
+
+  const [dataCrypt, setDataCrypt] = useState();
+  const [days, setDays] = useState(2); //seleccionar el periodo temporal para los datos
 
   const getData = async () => {
     const { data } = await axios.get(
@@ -66,7 +68,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
 
   useEffect(() => {
     getData();
-  }, [days]);
+  }, [days]); //repetimos el fetch cada vez que el estado days cambia
 
   if (!dataCrypt) return <h1></h1>;
   return (

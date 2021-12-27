@@ -4,15 +4,11 @@ const dotenv=require('dotenv');
 const mongodb= require ('mongodb');
 const cors = require('cors');
 const passport= require ('passport');
-//const User=require('./schemas/User');
 const bcrypt = require ('bcryptjs');
 const cookieParser=require ('cookie-parser');
 const session =require('express-session');
 const bodyParser =require('body-parser');
 const localStrategy =require ('passport-local').Strategy;
-
-
-//require("./auth/LocalStrategy")(passport);
 
 ///_____END-IMPORTS________________________
 
@@ -38,8 +34,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    //origin: "http://localhost:3000", // <-- location of the react app were connecting to
-    //credentials: true,
   })
 );
 app.use(
@@ -74,8 +68,7 @@ passport.use(
 
 passport.serializeUser(function(user, done) {
   done(null, user._id);
-  // if you use Model.id as your idAttribute maybe you'd want
-  // done(null, user.id);
+
 });
 
 passport.deserializeUser(function(id, done) {
@@ -106,6 +99,8 @@ app.use('/publications',publications);
 
 //____________SERVER
 const path = require("path")
+
+//extra lines for heroku
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 app.get("*", function (request, response) {
   response.sendFile(path.resolve(__dirname, "../client/build", "index.html"));

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+//devolver los favoritos
 router.post('/' , (req,res)=>{
     req.app.locals.db 
     .collection('users')
@@ -13,7 +14,9 @@ router.post('/' , (req,res)=>{
         }
     })
 })
-router.post("/add", (req, res) => {
+//añadir un favorito
+
+router.put("/add", (req, res) => {
     req.app.locals.db
     .collection('users')
     .find({email:req.body.email})
@@ -36,7 +39,9 @@ router.post("/add", (req, res) => {
     })
   });
 
-router.delete("/delete", (req, res) => {
+//eliminar un favorito
+
+router.put("/delete", (req, res) => {
     req.app.locals.db
     .collection('users')
     .find({email:req.body.email})

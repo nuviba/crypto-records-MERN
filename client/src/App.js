@@ -70,7 +70,7 @@ function App() {
         >
           <Routes>
 {/*             para la ruta raíz comprobamos si el usuario está logeado o no, para llevarlo a la sección privada o la pública
- */}            <Route
+ */}        <Route
               path="/"
               element={userLogged === "null" ? <HomePage /> : <CoinList />}
             />

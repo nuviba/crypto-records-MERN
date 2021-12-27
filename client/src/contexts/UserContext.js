@@ -1,3 +1,3 @@
 import { createContext } from "react";
-
-export const UserContext = createContext(null)
+//creamos un contexto vacío para generar un provider en la app con aquellos estados que queremos tener en varios componentes
+export const UserContext = createContext(null);

@@ -1,3 +1,4 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import { React, useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
@@ -24,6 +25,7 @@ ChartJS.register(
   Legend
 );
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   sec2: {
     width: "90%",
@@ -49,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//componente para mostrar el gráfico de la sección 2 del HomePage
 const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
   const [dataCrypt, setDataCrypt] = useState();
   const [days, setDays] = useState(2);
-  console.log(crypto);
 
   const classes = useStyles();
 
@@ -60,7 +62,6 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
     const { data } = await axios.get(
       `https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=eur&days=${days}`
     );
-    console.log(data.prices);
     setDataCrypt(data.prices);
   };
 

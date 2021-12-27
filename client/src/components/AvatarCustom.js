@@ -1,6 +1,7 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React from "react";
 import Avatar from "@mui/material/Avatar";
-
+//código obtenido de los ejemplos de la página oficial de Material UI
 function stringToColor(string) {
   let hash = 0;
   let i;

@@ -1,4 +1,7 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import { React, useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   makeStyles,
   Table,
@@ -6,19 +9,15 @@ import {
   TableBody,
   TableRow,
   TableHead,
-  TableContainer,
-  Tab,
 } from "@material-ui/core";
-import axios from "axios";
-import { Link } from "react-router-dom";
 
-import Banner from "../components/Banner";
+//------------IMPORT INTERNAL COMPONENTS------------
 import Header from "../components/Header";
 import { UserContext } from "../contexts/UserContext";
 import MediaQuery from "react-responsive";
-
 import MiniPlot from "../components/MiniPlot";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   favs: {
     paddingTop: "120px",
@@ -67,7 +66,6 @@ const useStyles = makeStyles((theme) => ({
   percentGreen: {
     color: "rgb(51, 143, 51)",
   },
-
   linkCrypt: {
     textDecoration: "none",
     color: "black",
@@ -84,14 +82,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//componente para devolver tabla de monedas favoritas
 function FavPage() {
   const classes = useStyles();
   const { userLogged, setPage } = useContext(UserContext);
 
+  //estados para guardar las monedas favoritas
   const [favlist, setFavlist] = useState([]);
   const [favData, setFavData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); //estado que guarda si la página está todavía cargando
 
+  //primero obtenemos el listado de monedas favoritas del server
   useEffect(function () {
     axios
       .post(`http://localhost:4000/favs/`, { email: userLogged.email })
@@ -103,8 +104,7 @@ function FavPage() {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(favlist);
-
+  //para cada moneda cogemos sus datos de la API externa
   useEffect(() => {
     setLoading(true);
     Promise.all(
@@ -115,13 +115,15 @@ function FavPage() {
       )
     ).then((datos) => {
       setFavData(datos);
-      setTimeout(() => {
+      setTimeout(() => { //ponemos un pequeño delay para evitar conflictos en la página mientras cargan los datos.
         setLoading(false);
       }, 1000);
     });
   }, [favlist]);
 
   function CoinFavs() {
+
+    //función para devolver feedback cuando no hay monedas favoritas
     function Nofavs() {
       return (
         <div>
@@ -138,9 +140,8 @@ function FavPage() {
         </div>
       );
     }
-
     return loading ? (
-      <div>Loading</div>
+      <div>Loading...</div>
     ) : favData.length === 0 ? (
       <Nofavs />
     ) : (
@@ -266,7 +267,6 @@ function FavPage() {
       </Table>
     );
   }
-
   return (
     <div>
       <Header />

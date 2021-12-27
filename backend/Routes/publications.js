@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+
+//devolver las publicaciones de los usuarios
 router.get('/show', (req,res)=>{
     req.app.locals.db 
     .collection('publications')
@@ -13,6 +15,8 @@ router.get('/show', (req,res)=>{
         
     })
 })
+
+//guardar la publicación del usuario
 router.post('/post', (req,res)=>{
     req.app.locals.db 
     .collection('users')
@@ -34,7 +38,7 @@ router.post('/post', (req,res)=>{
         
     
 });
-
+//eliminar la publicación del usuario
 router.delete('/delete', (req,res)=>{
     req.app.locals.db 
     .collection('users')
@@ -53,26 +57,7 @@ router.delete('/delete', (req,res)=>{
     }) 
 });
 
-router.put('/modify', (req,res)=>{
-    req.app.locals.db 
-    .collection('users')
-    .find({username:req.body.username})
-    .toArray((err,data)=>{
-        if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
-        else if(data.length==0){res.send({error:true,data:err,msg:'User not registered!'})}
-        else{
-            req.app.locals.db
-            .collection('publications')
-            .updateOne({dated:req.body.dated},{$set:{text:req.body.text}},(err2,datos2)=>{
-                if(err2){res.send({error:true,data:err2,msg:'Connection to DB failed!'})}
-                else{ res.send({error:false,data:datos2,msg:'Publication saved'})}
-
-            })
-        }
-    })
-        
-    
-});
+//like a una publicación
 
 router.post("/like", (req, res) => {
     req.app.locals.db
@@ -95,6 +80,8 @@ router.post("/like", (req, res) => {
   
     })
   });
+
+  // quitar like a una publicación
 
 router.delete("/dislike", (req, res) => {
     req.app.locals.db

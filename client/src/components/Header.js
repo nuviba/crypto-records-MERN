@@ -1,4 +1,6 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Typography,
@@ -7,17 +9,19 @@ import {
   Tab,
   IconButton,
 } from "@material-ui/core";
-import { Link, useNavigate } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
-import { UserContext } from "../contexts/UserContext";
 import TabList from "@mui/lab/TabList";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import TabContext from "@mui/lab/TabContext";
 import { Icon } from "@blueprintjs/core";
 import MediaQuery from "react-responsive";
-import AvatarCustom from "./AvatarCustom";
 
+//------------IMPORT INTERNAL COMPONENTS------------
+import AvatarCustom from "./AvatarCustom";
+import { UserContext } from "../contexts/UserContext";
+
+//-------------STYLES------------------------------
 const useStyles = makeStyles(() => ({
   menu: {
     color: "white",
@@ -77,38 +81,29 @@ const useStyles = makeStyles(() => ({
     display: "none",
   },
 }));
-
+//componente para mostrar la barra del header fija, presente en todas las páginas de la sección privada
 const Header = () => {
-  const [anchorElNav, setAnchorElNav] = useState(null);
+  const navigate = useNavigate();
+  //importamos diferentes estados del contexto de usuario
+  const { userLogged, setUserLogged, page, setPage } = useContext(UserContext);
+  
+  //estado para controlar el dropdown del menú de usuario
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  //funciones para abrir/cerrar el menú de usuario
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const navigate = useNavigate();
-  const { userLogged, setUserLogged, page, setPage } = useContext(UserContext);
-
+    //función para hacer logOut de la sesión
   const logOut = () => {
     setUserLogged("null");
     localStorage.removeItem("userLogged");
     navigate("/", { replace: true });
-  };
-
-  const [value, setValue] = useState("1");
-  const handleChange = (e, nv) => {
-    setValue(nv);
   };
 
   const classes = useStyles();
@@ -218,9 +213,6 @@ const Header = () => {
           </MediaQuery>
         </Typography>
         <Typography>
-          {/*                     <Button onClick={logOut} variant="outline-light">LOG OUT</Button>{' '}
-                        
- */}
           <IconButton onClick={handleOpenUserMenu}>
              <AvatarCustom
               firstName={userLogged.firstName}
@@ -243,7 +235,7 @@ const Header = () => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <MenuItem onClick={handleCloseNavMenu}>
+            <MenuItem>
               <Link
                 onClick={() => {
                   setPage(0);
@@ -254,7 +246,7 @@ const Header = () => {
                 <Typography textAlign="center">Account</Typography>
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleCloseNavMenu}>
+            <MenuItem>
               <Typography onClick={logOut} textAlign="center">
                 <Icon
                   color="#black"

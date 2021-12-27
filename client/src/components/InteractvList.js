@@ -1,11 +1,11 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import AliceCarousel from "react-alice-carousel";
 
-
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
-  
   styleList: {
     display: "flex",
     flexDirection:"column",
@@ -19,11 +19,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+//componente para construir un Alice-Carrousel con los datos de las coin más trending
 const InteractvList = () => {
 
-const [trendList, setTrendList]=useState([]);
 const classes =useStyles();
 
+const [trendList, setTrendList]=useState([]);
 useEffect(() => {
   axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=gecko_desc&per_page=10&page=1&sparkline=false&price_change_percentage=24h`) 
   .then(res =>{
@@ -32,6 +33,7 @@ useEffect(() => {
   .catch(err=>console.log(err));
   },[]);
 
+  //creamos los items individuales del carrousel
 const items= trendList.map((trend)=>{
   let upd = trend.price_change_percentage_24h >= 0;
   return(
@@ -49,6 +51,8 @@ const items= trendList.map((trend)=>{
     </>
     )
   })
+
+//según tamaño de pantalla cambiamos el número de elementos mostrados en el carrousel
 const responsive = {
   0: {
     items: 2,
@@ -58,31 +62,23 @@ const responsive = {
   },
   };
 
-  
   return (
-      <div>
-        <div className={classes.styleList}>
-      <AliceCarousel
-        mouseTracking
-        infinite
-        autoPlayInterval={1000}
-        animationDuration={2000}
-        disableDotsControls
-        disableButtonsControls
-        responsive={responsive}
-        items={items}
-        autoPlay
-      />    
+    <div>
+      <div className={classes.styleList}>
+          <AliceCarousel
+            mouseTracking
+            infinite
+            autoPlayInterval={1000}
+            animationDuration={2000}
+            disableDotsControls
+            disableButtonsControls
+            responsive={responsive}
+            items={items}
+            autoPlay
+          />    
       </div>
-      </div>
-      
+    </div>
   )
 } 
-
-
-
-
-  
-
 
 export default InteractvList

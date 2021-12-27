@@ -1,16 +1,17 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ReactHtmlParser from "react-html-parser";
-import { Link } from "react-router-dom";
-import { Icon } from "@blueprintjs/core";
 import MediaQuery from "react-responsive";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import Header from "../components/Header";
 import CryptoPlot from "../components/CryptoPlot";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   appCryp: {
     paddingTop: "120px",
@@ -71,12 +72,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//componente para mostrar detalles individuales de una moneda en concreto
 const CryptoPage = () => {
-  const { id } = useParams();
   const classes = useStyles();
+  const { id } = useParams(); //llamamos a cada moneda mediante una ruta con params 
 
   const [crypt, setCrypt] = useState();
-
+//guardamos los datos de la api en un estado
   const getCrypt = async () => {
     const { data } = await axios.get(
       `https://api.coingecko.com/api/v3/coins/${id}`

@@ -1,17 +1,18 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 import { Icon } from "@blueprintjs/core";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import { UserContext } from "../contexts/UserContext";
-import Account from "../pages/Account";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles(() => ({
   mainDiv: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    //backgroundColor:'rgb(35,39,46)',
   },
 
   //FIND FRIENDS
@@ -59,10 +60,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+//componente para búsqueda controlada de usuarios con opción de añadir/quitar de la lista de following
 const SearchUsers = () => {
   const classes = useStyles();
-  const { userLogged, setUserLogged, following, setFollowing, followers } =
-    useContext(UserContext);
+  const { userLogged, setUserLogged, following, followers } = useContext(UserContext);
 
   const [username, setUsername] = useState("");
   const [user, setUser] = useState([]);
@@ -81,17 +82,16 @@ const SearchUsers = () => {
   useEffect(() => {
     getUsers();
   }, []);
-
+  //función para devolver un usuario concreto con la opción de añadir/quitar de followers
   function ReturnUser({ retuser }) {
 
     const addFriend = async () => {
       await axios
-        .post("http://localhost:4000/friends/add", {
+        .put("http://localhost:4000/friends/add", {
           email: userLogged.email,
           friend: retuser.username,
         })
         .then((res) => {
-          console.log(res);
           setUserLogged(res.data.data);
           setNumfollowing(numfollowing+1);
         });
@@ -99,11 +99,8 @@ const SearchUsers = () => {
 
     const deleteFriend = async () => {
       await axios
-        .delete("http://localhost:4000/friends/delete", {
-          data: { email: userLogged.email, friend: retuser.username },
-        })
+        .put("http://localhost:4000/friends/delete", { email: userLogged.email, friend: retuser.username })
         .then((res) => {
-          console.log(res);
           setUserLogged(res.data.data);
           setNumfollowing(numfollowing-1);
         });
@@ -136,6 +133,7 @@ const SearchUsers = () => {
   }
 
   function FindUsers() {
+    //función para buscar usuarios
     if (username === "") {
       return (
         <p>
@@ -145,6 +143,7 @@ const SearchUsers = () => {
     } else if (user.error) {
       return <p style={{ color: "red" }}>{user.mensaje}</p>;
     } else {
+      //los usuarios se filtran para que coincidan con el valor buscado
       const usersMatch = user.data.filter(
         (el) =>
           el.username.toLowerCase().includes(username.toLowerCase()) &&
@@ -185,8 +184,7 @@ const SearchUsers = () => {
             setUsername(e.target.value);
           }}
         />
-        {/*                         <Icon className={classes.iconSearch} icon="search"/>
-         */}
+
         <div className={classes.searchResult}>
           <FindUsers />
         </div>

@@ -1,11 +1,14 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import { React, useState } from "react";
 import Header from "../components/Header";
 import { makeStyles } from "@material-ui/core";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import SearchUsers from "../components/SearchUsers";
 import PublicationsBoard from "../components/PublicationsBoard";
 import Publish from "../components/Publish";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   friends: {
     paddingTop: "120px",
@@ -32,9 +35,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//componente para mostrar la página social con buscador de usuarios, tablón de mensajes y cuadro de publicación
 function Friends() {
   const classes = useStyles();
-  const [refresh, setRefresh] = useState(0);
+  const [refresh, setRefresh] = useState(0); //utilizamos estado de refresco para actualizar mensajes en tiempo real
 
   return (
     <div>

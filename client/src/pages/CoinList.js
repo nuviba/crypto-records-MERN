@@ -1,3 +1,4 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -9,17 +10,16 @@ import {
   TableBody,
   TableRow,
   TableHead,
-  TableContainer,
-  Tab,
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import { Icon } from "@blueprintjs/core";
 import MediaQuery from "react-responsive";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import { UserContext } from "../contexts/UserContext";
-
 import Header from "../components/Header";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   mainList: {
     display: "flex",
@@ -71,14 +71,12 @@ const useStyles = makeStyles((theme) => ({
     width: "40px",
     marginRight: "20px",
   },
-
   percentRed: {
     color: "red",
   },
   percentGreen: {
     color: "rgb(51, 143, 51)",
   },
-
   linkCrypt: {
     textDecoration: "none",
     color: "black",
@@ -98,40 +96,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// componente que muestra una lista de monedas con buscador y paginación
 const CoinList = () => {
-  let [data, setData] = useState([]);
-  let [search, setSearch] = useState("");
 
-  useEffect(function () {
-    axios
-      .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false"
-      )
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => console.log(err));
+const classes = useStyles();
+const { userLogged, setUserLogged, page, setPage } = useContext(UserContext);
+
+let [data, setData] = useState([]); //estado para guardar datos de la API
+let [search, setSearch] = useState(""); //estado para el input de la búsqueda (componente controlado)
+
+//obtenemos las 100 primeras monedas de la API
+useEffect(function () {
+  axios
+  .get(
+  "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+  )
+  .then((res) => {
+  setData(res.data);
+  })
+  .catch((err) => console.log(err));
   }, []);
 
+//función para controlar el cambio en la barra de búsqueda
   const handleChange = (coin) => {
-    setPage(1);
+    setPage("1")
     setSearch(coin.target.value);
   };
-
+//función para controlar la paginación
   const handlePage = () => {
     return data.filter((crypto) =>
       crypto.name.toLowerCase().includes(search.toLowerCase())
     );
   };
 
-  const classes = useStyles();
-
-  const { userLogged, setUserLogged, page, setPage } = useContext(UserContext);
-
   return (
     <>
       <Header key="header" />
+
       <div className={classes.mainList}>
+        {/* barra de búsqueda */}
         <div key="search" className={classes.searchCryp}>
           <TextField
             className={classes.searchBar}
@@ -142,7 +145,9 @@ const CoinList = () => {
             color="black"
           />
         </div>
+
         <Table className={classes.table}>
+
           <TableHead>
             <TableRow>
               {["Fav", "Coin", "24h % var", "Current price", "Market cap"].map(
@@ -151,7 +156,6 @@ const CoinList = () => {
                     <TableCell
                       key={el}
                       className={classes.head}
-                      align={el === "24h var plot" ? "center" : "left"}
                     >
                       {el}
                     </TableCell>
@@ -160,108 +164,110 @@ const CoinList = () => {
               )}
             </TableRow>
           </TableHead>
+
           <TableBody>
             {handlePage()
               .slice((page - 1) * 5, (page - 1) * 5 + 5)
               .map((crypto) => {
-                const addFav = async () => {
-                  await axios
-                    .post("http://localhost:4000/favs/add", {
-                      email: userLogged.email,
-                      coin: crypto.id,
-                    })
-                    .then((res) => {
-                      console.log(res);
-                      setUserLogged(res.data.data);
-                    });
-                };
+                //funciones para añadir monedas a favoritos o eliminarlas
+                      const addFav = async () => {
+                        await axios
+                          .put("http://localhost:4000/favs/add", {
+                            email: userLogged.email,
+                            coin: crypto.id,
+                          })
+                          .then((res) => {
+                            console.log(res);
+                            setUserLogged(res.data.data);
+                          });
+                      };
 
-                const deleteFav = async () => {
-                  await axios
-                    .delete("http://localhost:4000/favs/delete", {
-                      data: { email: userLogged.email, coin: crypto.id },
-                    })
-                    .then((res) => {
-                      console.log(res);
-                      setUserLogged(res.data.data);
-                    });
-                };
-                return (
-                  <TableRow className={classes.row}>
-                    <TableCell className={classes.cell}>
-                      {userLogged.favs.indexOf(crypto.id) == -1 ? (
-                        <Icon
-                          className={classes.starEmpty}
-                          onClick={addFav}
-                          color="#D8E1E8"
-                          icon="star-empty"
-                          size={30}
-                          intent="primary"
-                        />
-                      ) : (
-                        <Icon
-                          className={classes.star}
-                          onClick={deleteFav}
-                          color="#D8E1E8"
-                          icon="star"
-                          size={30}
-                          intent="primary"
-                        />
-                      )}
-                    </TableCell>
-                    <TableCell className={classes.cell}>
-                      <Link
-                        onClick={() => {
-                          setPage(0);
-                        }}
-                        to={`/crypto/${crypto.id}`}
-                        className={classes.linkCrypt}
-                      >
-                        <div className={classes.crypimg}>
-                          <img
-                            src={crypto.image}
-                            alt={crypto.name}
-                            className={classes.img}
-                          />
-                        </div>
-                        <MediaQuery query="(min-width:900px)">
-                          <div>
-                            <p>
-                              <b>{crypto.name}</b>
-                            </p>
-                            <p>{crypto.symbol.toUpperCase()}</p>
-                          </div>
-                        </MediaQuery>
-                      </Link>
-                    </TableCell>
-                    <TableCell className={classes.cell}>
-                      {crypto.price_change_percentage_24h ? (
-                        crypto.price_change_percentage_24h < 0 ? (
-                          <p className={classes.percentRed}>
-                            {crypto.price_change_percentage_24h.toFixed(2)}%
-                          </p>
-                        ) : (
-                          <p className={classes.percentGreen}>
-                            {crypto.price_change_percentage_24h.toFixed(2)}%
-                          </p>
-                        )
-                      ) : (
-                        <p className={classes.percentRed}>No data</p>
-                      )}
-                    </TableCell>
-                    <TableCell className={classes.cell}>
-                      <p className={classes.priceCryp}>
-                        {crypto.current_price.toLocaleString()}€
-                      </p>
-                    </TableCell>
-                    <TableCell className={classes.cell}>
-                      <p className={classes.marktCap}>
-                        {crypto.market_cap.toLocaleString()}€
-                      </p>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      const deleteFav = async () => {
+                        await axios
+                          .put("http://localhost:4000/favs/delete", 
+                          {email: userLogged.email, coin: crypto.id }
+                          )
+                          .then((res) => {
+                            console.log(res);
+                            setUserLogged(res.data.data);
+                          });
+                      };//estamos aún en el map!
+                        return (
+                          <TableRow className={classes.row}>
+                            <TableCell className={classes.cell}>
+                              {userLogged.favs.indexOf(crypto.id) == -1 ? (
+                                <Icon
+                                  className={classes.starEmpty}
+                                  onClick={addFav}
+                                  color="#D8E1E8"
+                                  icon="star-empty"
+                                  size={30}
+                                  intent="primary"
+                                />
+                              ) : (
+                                <Icon
+                                  className={classes.star}
+                                  onClick={deleteFav}
+                                  color="#D8E1E8"
+                                  icon="star"
+                                  size={30}
+                                  intent="primary"
+                                />
+                              )}
+                            </TableCell>
+                            <TableCell className={classes.cell}>
+                              <Link
+                                onClick={() => {
+                                  setPage(0);
+                                }}
+                                to={`/crypto/${crypto.id}`}
+                                className={classes.linkCrypt}
+                              >
+                                <div className={classes.crypimg}>
+                                  <img
+                                    src={crypto.image}
+                                    alt={crypto.name}
+                                    className={classes.img}
+                                  />
+                                </div>
+                                <MediaQuery query="(min-width:900px)">
+                                  <div>
+                                    <p>
+                                      <b>{crypto.name}</b>
+                                    </p>
+                                    <p>{crypto.symbol.toUpperCase()}</p>
+                                  </div>
+                                </MediaQuery>
+                              </Link>
+                            </TableCell>
+                            <TableCell className={classes.cell}>
+                              {crypto.price_change_percentage_24h ? (
+                                crypto.price_change_percentage_24h < 0 ? (
+                                  <p className={classes.percentRed}>
+                                    {crypto.price_change_percentage_24h.toFixed(2)}%
+                                  </p>
+                                ) : (
+                                  <p className={classes.percentGreen}>
+                                    {crypto.price_change_percentage_24h.toFixed(2)}%
+                                  </p>
+                                )
+                              ) : (
+                                <p className={classes.percentRed}>No data</p>
+                              )}
+                            </TableCell>
+                            <TableCell className={classes.cell}>
+                              <p className={classes.priceCryp}>
+                                {crypto.current_price.toLocaleString()}€
+                              </p>
+                            </TableCell>
+                            <TableCell className={classes.cell}>
+                              <p className={classes.marktCap}>
+                                {crypto.market_cap.toLocaleString()}€
+                              </p>
+                            </TableCell>
+                          </TableRow>
+                        );//salimos del map, hemos creado una fila para cada moneda
+                      })}
           </TableBody>
         </Table>
 

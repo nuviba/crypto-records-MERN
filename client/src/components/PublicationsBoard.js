@@ -1,15 +1,18 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 import { Button, Dropdown } from "react-bootstrap";
 import { Icon } from "@blueprintjs/core";
-
-import { UserContext } from "../contexts/UserContext";
 import DropdownToggle from "react-bootstrap/esm/DropdownToggle";
 import DropdownMenu from "react-bootstrap/esm/DropdownMenu";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
+
+//------------IMPORT INTERNAL COMPONENTS------------
+import { UserContext } from "../contexts/UserContext";
 import AvatarCustom from "./AvatarCustom";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   publication: {
     minHeight: "100px",
@@ -54,9 +57,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//componente para mostrar el tablón de mensajes de tus following
 const PublicationsBoard = ({ refresh, setRefresh }) => {
   const classes = useStyles();
-  const { userLogged, setUserLogged } = useContext(UserContext);
+
+  const { userLogged } = useContext(UserContext);
   const [pubs, setPubs] = useState([]);
 
   const getPubs = async () => {
@@ -71,8 +76,9 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
 
   useEffect(() => {
     getPubs();
-  }, [refresh]);
+  }, [refresh]); //usamos el estado refresh para actualizar el tablón en tiempo real
 
+  //componente para mostrar una publicación, incluye opción de eliminar la publicación, dar/quitar like
   function ShowPub({ pub }) {
     const deletePub = async () => {
       await axios
@@ -109,10 +115,10 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
     };
     const date = new Date(pub.dated);
     const likeUsers = pub.likes.map((like) => {
-      return <DropdownItem>{like}</DropdownItem>;
+      return <DropdownItem>{like}</DropdownItem>; //mostraos DD para mostrar quien ha dado like a la publicación
     });
-    const likeNumber = pub.likes.length;
-
+    const likeNumber = pub.likes.length; //nos muestra el número de likes
+    //componente para mostrar likes de la publicación
     function ShowLikes() {
       return (
         <>
@@ -166,7 +172,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
       </div>
     );
   }
-
+  //componente que muestra el tablón de publicaciones
   function Publications() {
     if (pubs == null) {
       return (
@@ -180,6 +186,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
           userLogged.friends.indexOf(pub.username) !== -1 ||
           userLogged.username == pub.username
       );
+      //filtramos para mostrar las publicaciones solo de nuestros following
       const publistFriends = publist.map((e) => {
         return <ShowPub pub={e} />;
       });

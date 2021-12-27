@@ -1,9 +1,12 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import React from "react";
 import { Container, makeStyles } from "@material-ui/core";
 import "react-alice-carousel/lib/alice-carousel.css";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import InteractvList from "./InteractvList";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   banner: {
     width: "100%",
@@ -19,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
+//componente para mostrar el carrousel de monedas trending
 const Banner = () => {
   const classes = useStyles();
   return (

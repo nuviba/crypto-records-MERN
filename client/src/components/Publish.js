@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+//------------IMPORT EXTERNAL MODULES---------------
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 import { TextArea, Intent } from "@blueprintjs/core";
 import { Button } from "react-bootstrap";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import { UserContext } from "../contexts/UserContext";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles(() => ({
   publicationBox: {
     paddingTop: "20px",
@@ -28,15 +31,18 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+//componente para publicar un mensaje en el tablón social
 const Publish = ({ refresh, setRefresh }) => {
   const classes = useStyles();
-  const { userLogged, setUserLogged } = useContext(UserContext);
+  
+  const { userLogged } = useContext(UserContext);
+
   const [text, setText] = useState("");
   const [feedback, setFeedback] = useState("");
   const handleChange = (e) => {
     setText(e.target.value);
   };
-
+  //solo se publica si el texto no es vacío, en caso contrario se avisa al usuario
   const handleSubmit = async () => {
     if (text.length > 0) {
       await axios
@@ -50,7 +56,7 @@ const Publish = ({ refresh, setRefresh }) => {
         .then((res) => {
           console.log(res);
           setFeedback(res.data.msg);
-          setRefresh(refresh + 1);
+          setRefresh(refresh + 1); //usamos el estado refresh para renderizar en tiempo real el tablón de mensajes
           setText("");
         });
     } else {

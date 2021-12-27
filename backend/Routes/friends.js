@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-router.post("/add", (req, res) => {
+//añadir un amigo
+router.put("/add", (req, res) => {
     req.app.locals.db
     .collection('users')
     .find({email:req.body.email})
@@ -23,7 +24,9 @@ router.post("/add", (req, res) => {
     })
   });
 
-router.delete("/delete", (req, res) => {
+
+//eliminar un amigo
+router.put("/delete", (req, res) => {
     req.app.locals.db
     .collection('users')
     .find({email:req.body.email})

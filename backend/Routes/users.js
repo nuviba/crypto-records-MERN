@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require ('bcryptjs');
 const passport= require ('passport');
 
+//devolver lista de usuarios
 router.get("/get", function(req,res){
   req.app.locals.db 
   .collection("users")
@@ -34,6 +35,7 @@ router.get("/get", function(req,res){
   })
 })
 
+//ruta para autentificar al usuario utilizando estrategia locald de passport
 router.post("/sign-in", (req, res, next) => {
     console.log('entrando al sign-in')
     passport.authenticate("local", (err, user, info) => {
@@ -49,6 +51,7 @@ router.post("/sign-in", (req, res, next) => {
     })(req, res, next);
   });
   
+  //ruta para registrar un usuario
   router.post("/sign-up", (req, res) => {
       req.app.locals.db
       .collection('users')
@@ -70,6 +73,8 @@ router.post("/sign-in", (req, res, next) => {
   
       })
     });
+
+    //ruta para eliminar un usuario
     router.delete("/delete", (req, res) => {
       req.app.locals.db
       .collection('users')

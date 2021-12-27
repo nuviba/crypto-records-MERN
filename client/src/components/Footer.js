@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core";
-import { MDBCol, MDBContainer, MDBRow, MDBFooter } from "mdbreact";
-import { Col } from "react-bootstrap";
+import { MDBContainer, MDBFooter } from "mdbreact";
 
 const useStyles = makeStyles((theme) => ({
   footer: {

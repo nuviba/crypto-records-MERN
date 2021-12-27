@@ -1,13 +1,15 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import { React, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 import { UserContext } from "../contexts/UserContext";
-import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import Header from "../components/Header";
 import AvatarCustom from "../components/AvatarCustom";
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
   account: {
     paddingTop: "150px",
@@ -67,25 +69,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
+//componente para mostrar el perfil del usuario
 const UserDetails = () => {
-  const { userLogged, setUserLogged } = useContext(UserContext);
-  const navigate = useNavigate();
-
   const classes = useStyles();
 
-  /* const handleDelete = () => {
-    axios
-      .delete("http://localhost:4000/users/delete", {
-        data: { email: userLogged.email },
-      })
-      .then((res) => {
-        console.log(res);
-        localStorage.removeItem("userLogged");
-        setUserLogged("null");
-        navigate("/", { replace: true });
-      });
-  }; */
+  const { userLogged } = useContext(UserContext);
 
   return (
     <div className={classes.userDetails}>
@@ -104,22 +92,17 @@ const UserDetails = () => {
         </h6>
         <h6 style={{ padding: "10px" }}>Email: {userLogged.email}</h6>
         <h6 style={{ padding: "10px" }}>Birthdate: {userLogged.date}</h6>
-        {/* <Button
-          className={classes.buttonBox}
-          onClick={handleDelete}
-          variant="outline-dark"
-        >
-          Delete profile
-        </Button>{" "} */}
+
       </div>
     </div>
   );
 };
 
+//componente para mostrar los following usuario
 const UserFollowing = () => {
-  const { userLogged, setUserLogged, following, setFollowing, page } =
-    useContext(UserContext);
   const classes = useStyles();
+
+  const { userLogged, following, setFollowing } = useContext(UserContext);
   const [users, setUsers] = useState([]);
 
   const getUsers = async () => {
@@ -135,16 +118,14 @@ const UserFollowing = () => {
   useEffect(() => {
     getUsers();
   }, []);
-
+  //filtramos para quedarnos solo con los usuarios que están en nuestra lista de amigos
   const friends = users.filter(
     (user) => userLogged.friends.indexOf(user.username) !== -1
   );
   useEffect(() => {
     setFollowing(friends);
   }, [users]);
-
-  console.log(following);
-
+  //para cada following creamos un elemento con su avatar y nombre de usuario
   const followingList = following.map((follow) => {
     return (
       <li className={classes.list}>
@@ -158,7 +139,7 @@ const UserFollowing = () => {
       </li>
     );
   });
-
+  //devolvemos la lista de todos los followings
   return (
     <div className={classes.userFollowers}>
       <div className={classes.head}>
@@ -171,10 +152,13 @@ const UserFollowing = () => {
   );
 };
 
+//componente para mostrar los followers del usuario
+//misma lógica que función anterior, solo cambia el filtro para quedarnos con los followers
 const UserFollowers = () => {
-  const { userLogged, setUserLogged, followers, setFollowers, page } =
-    useContext(UserContext);
   const classes = useStyles();
+
+  const { userLogged, followers, setFollowers } =
+    useContext(UserContext);
   const [users, setUsers] = useState([]);
 
   const getUsers = async () => {
@@ -224,7 +208,7 @@ const UserFollowers = () => {
     </div>
   );
 };
-
+//componente para mostrar la página con las tres secciones
 const Account = () => {
   const classes = useStyles();
   return (

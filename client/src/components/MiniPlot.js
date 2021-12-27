@@ -1,3 +1,4 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import {React, useState, useEffect} from 'react';
 import axios from 'axios';
 import { makeStyles } from "@material-ui/core";
@@ -23,6 +24,7 @@ ChartJS.register(
     Legend
   );
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles((theme) => ({
 sec2:{
       display: "flex",
@@ -34,46 +36,42 @@ sec2:{
       color: 'white'
     }
   }));
-
+//componente para producir gráficos en tabla de monedas favoritas
 const MiniPlot = ({crypto,bordercolor,bkcolor}) => {
-    const [dataCrypt, setDataCrypt]=useState();
-  const [days , setDays]=useState(30);
-  console.log(crypto)
-  
   const classes =useStyles();
 
+  const [dataCrypt, setDataCrypt]=useState();
+  //obtenemos datos de la API
   const getData = async () => {
     const  { data }  = await axios.get(`https://api.coingecko.com/api/v3/coins/${crypto}/market_chart?vs_currency=eur&days=1`);
-    console.log(data.prices)
     setDataCrypt(data.prices);
   };
 
   useEffect(() => {
     getData();
-  },[days]);
+  },[]);
     
-  if (!dataCrypt) return <h1></h1>;
+  if (!dataCrypt) return <p>Loading...</p>;
     return (
         <div className={classes.mainDiv}>
             <div className={classes.sec2}>
-        <Line
-          data={{
-            labels:dataCrypt.map((element)=>{
-              let date = new Date(element[0]);
-                return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
-            }),
-            datasets:[
-              {data: dataCrypt.map((element)=>element[1]),
-                label:false,
-                pointBackgroundColor:bkcolor,
-                borderColor:bordercolor,
-            pointRadius:0}]     
-            }}
-            options={{maintainAspectRatio:false, plugins:{legend:false}, scales:{x:{display:false},y:{display:false}}}}
-            height={70}
-            />     
-      </div>
-            
+              <Line
+                data={{
+                  labels:dataCrypt.map((element)=>{
+                    let date = new Date(element[0]);
+                      return `${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`;
+                  }),
+                  datasets:[
+                    {data: dataCrypt.map((element)=>element[1]),
+                      label:false,
+                      pointBackgroundColor:bkcolor,
+                      borderColor:bordercolor,
+                  pointRadius:0}]     
+                  }}
+                  options={{maintainAspectRatio:false, plugins:{legend:false}, scales:{x:{display:false},y:{display:false}}}}
+                  height={70}
+              />     
+            </div>    
         </div>
     )
 }
