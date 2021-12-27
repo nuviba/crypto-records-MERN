@@ -1,15 +1,16 @@
-import { Tabs, Tab} from 'react-bootstrap';
+//------------IMPORT EXTERNAL MODULES---------------
 import { makeStyles } from "@material-ui/core";
-import { useState } from 'react';
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import SignIn from "../components/SignIn";
 import SignUp from "../components/SignUp";
 
-  const useStyles = makeStyles((theme) => ({
+//-------------STYLES------------------------------
+const useStyles = makeStyles((theme) => ({
     access: {
-        display:'flex',
-        flexDirection:'row-reverse',
-        color:'white'
+      display:'flex',
+      flexDirection:'row-reverse',
+      color:'white'
     },
     global:{
       position:'fixed',
@@ -51,20 +52,13 @@ import SignUp from "../components/SignUp";
 function Access ({showAcc,setShowAcc, regis, setRegis}){
 
   const classes =useStyles();
+
     return(
       <>
-        {showAcc?(
+        {showAcc?(//solo mostramos este componente si showAcc es true
           <div className={classes.global}>      
           <div className={classes.sgnIn} showAcc={showAcc}>
-            {/* <Tabs defaultActiveKey="SignIn" id="uncontrolled-tab-example" className="mb-3">
-            <Tab eventKey="SignIn" title="Sing In" color="white">
-                <SignIn/>
-            </Tab>
-            <Tab eventKey="SignUp" title="Sign Up">
-                <SignUp />
-            </Tab>
-            </Tabs>  */}
-            {regis?
+            {regis? //dependiendo del valor del estado, mostramos signIn o signUp
             <SignIn setRegis={setRegis}/>
             :<SignUp setRegis={setRegis} />}
             <div >

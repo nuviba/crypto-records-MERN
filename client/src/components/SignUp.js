@@ -1,3 +1,4 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import { Button} from 'react-bootstrap';
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -6,6 +7,7 @@ import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
 import { makeStyles } from '@material-ui/core';
 
+//-------------STYLES------------------------------
 const useStyles = makeStyles (()=>({
   signup:{
     display:'flex',
@@ -21,11 +23,9 @@ const useStyles = makeStyles (()=>({
   textInput:{
     margin:'5px'
   }
-  
-  
 }));
 
-
+//utilizamos Yup para establecer las condiciones que tienen que cumplir los inputs del formulario
 const SignUpSchema = Yup.object().shape({
   username: Yup.string()
     .min(4, 'Must be longer than 4 characters')
@@ -47,14 +47,11 @@ const SignUpSchema = Yup.object().shape({
 });
 
 const SignUp = ({setRegis}) =>{
-
 const classes= useStyles();
   
 return(
-  
-  
     <Formik
-      initialValues={{
+      initialValues={{//valores iniciales del formulario, vacíos por defecto
         username: '',
         email: '',
         firstName: '',
@@ -62,14 +59,14 @@ return(
         password: '',
         date: '',
       }}
-      validationSchema={SignUpSchema}
-      onSubmit={values => {
+      validationSchema={SignUpSchema/*validación de YUP*/}
+      onSubmit={values => {//función para manejar el envío al servidor
         return axios({
           method: "POST",
           url: "http://localhost:4000/users/sign-up",
           data: values
         }).then((res)=>{console.log(res)
-        setRegis(true)})
+        setRegis(true)})//una vez hecho el sign up mostramos el login
       }}
       render={({ errors, touched }) => (
         <>
@@ -123,10 +120,8 @@ return(
           
           <Button type="submit">Sign Up</Button>
           </div>
-          
         </Form>
         </>
-        
       )}
     />
   

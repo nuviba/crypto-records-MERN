@@ -1,33 +1,33 @@
-import {
-  AppBar,
-  Typography,
-  Toolbar,
-  makeStyles,
-  Tab,
-  Box,
-} from "@material-ui/core";
+//------------IMPORT EXTERNAL MODULES---------------
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import MediaQuery from "react-responsive";
+import axios from "axios";
+
 import { Button } from "react-bootstrap";
 import {
   ScrollingProvider,
   useScrollSection,
   Section,
 } from "react-scroll-section";
-import { Icon } from "@blueprintjs/core";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import MediaQuery from "react-responsive";
-
-import Access from "../components/Access";
-import Banner from "../components/Banner";
 
 import TabList from "@mui/lab/TabList";
 import TabContext from "@mui/lab/TabContext";
+import {
+  AppBar,
+  Typography,
+  Toolbar,
+  makeStyles,
+  Tab,
+} from "@material-ui/core";
 
+//------------IMPORT INTERNAL COMPONENTS------------
+import Access from "../components/Access";
+import Banner from "../components/Banner";
 import PlotHomePage from "../components/PlotHomePage";
-
 import example from "./example-friends.png"
 
+//definimos los estilos. Para responsividad utilizamos theme.breakpoint, implementado en MUI
 const useStyles = makeStyles((theme) => ({
   //header
   header: {
@@ -91,7 +91,6 @@ const useStyles = makeStyles((theme) => ({
   section2: {
     minHeight: "100vh",
     width: "100%",
-    //paddingTop: "100px",
     backgroundColor: "black",
     display: "flex",
     justifyContent: "space-between",
@@ -119,8 +118,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
-    //boxShadow: " rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
-    //borderRadius: "20px",
   },
   sect2info: {
     paddingTop: "120px",
@@ -161,7 +158,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
-
   },
   sect3follow:{
     paddingTop: "120px",
@@ -177,12 +173,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
-    
-
   },
   img:{
     width:'95%',
-    
     display:'flex',
     justifyContent:'center',
     marginLeft:"50px",
@@ -190,19 +183,14 @@ const useStyles = makeStyles((theme) => ({
     boxShadow:
       "rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px",
   }
-
 }));
 
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-}
+//-------------MAIN COMPONENT-------------------------
 
 function HomePage() {
-  const [crypt, setCrypt] = useState();
 
+  //obtenemos los datos para el plot de la sección2 y los guardamos en un estado
+  const [crypt, setCrypt] = useState();
   const getCrypt = async () => {
     const { data } = await axios.get(
       `https://api.coingecko.com/api/v3/coins/bitcoin`
@@ -214,6 +202,7 @@ function HomePage() {
     getCrypt();
   }, []);
 
+  //componente para mostrar la información de una moneda de la sección2
   function Infocoin() {
     if (!crypt) return <h1></h1>;
     return (
@@ -226,10 +215,11 @@ function HomePage() {
       </div>
     );
   }
+  //Estados para controlar el "pop-up" de sign-up/login
+  const [showAcc, setShowAcc] = useState(false);//determina si se muestra el pop-up o no
+  const [regis, setRegis] = useState(false);//determina si debe aparecer sign-up o login
 
-  const [showAcc, setShowAcc] = useState(false);
-  const [regis, setRegis] = useState(false);
-
+  //funciones para abrir el login y el sign-up
   const openLogIn = () => {
     setRegis(true);
     setShowAcc((prev) => !prev);
@@ -238,19 +228,21 @@ function HomePage() {
     setRegis(false);
     setShowAcc((prev) => !prev);
   };
+
+  //componente para mostrar el menú de secciones del header.
+  //usamos useScrollSection para tener un efecto de smoothscroll entre secciones
   const StaticMenu = () => {
     const section1 = useScrollSection("home");
     const section2 = useScrollSection("about");
     const section3 = useScrollSection("faqs");
 
-    const [value, setValue] = useState("1");
-
-    const handleChange = (e, nv) => {
+    const [value, setValue] = useState("1");//estado para controlar la sección activa 
+    const handleChange = (nv) => {
       setValue(nv);
     };
 
     return (
-      <>
+      <>{/* Usamos AppBar de MUI para hacer un header fijo */}
         <AppBar className={classes.header}>
           <Toolbar className={classes.toolbar}>
             <Typography>
@@ -263,6 +255,8 @@ function HomePage() {
               </Link>
             </Typography>
 
+            {/* Usamos MediaQuery de react-responsive para mostrar componentes según el tamaño de pantalla
+            Para dispositivos móviles no mostramos las secciones en el header */}
             <MediaQuery query="(min-width:900px)">
               <TabContext className={classes.menu} value={value}>
                 <TabList
@@ -290,9 +284,6 @@ function HomePage() {
               >
                 LOG IN
               </Button>
-              <Button onClick={openSignUp} variant="outline-light">
-                SIGN UP
-              </Button>
             </Typography>
           </Toolbar>
         </AppBar>
@@ -300,12 +291,14 @@ function HomePage() {
     );
   };
 
+  //return principal del componente
   const classes = useStyles();
   return (
     <div className={classes.homePage}>
       <ScrollingProvider>
         <StaticMenu />
         <Section>
+          {/* componente que muestra el pop-up del login/signup */}
           <Access
             showAcc={showAcc}
             setShowAcc={setShowAcc}
@@ -313,6 +306,7 @@ function HomePage() {
             setRegis={setRegis}
           />
         </Section>
+
         <Section className={classes.section1} id="home">
           <div className={classes.title}>
             <h1>CRYPTO RECORDS</h1>
@@ -327,6 +321,7 @@ function HomePage() {
             <Banner />
           </div>
         </Section>
+
         <Section className={classes.section2} id="about">
           <div className={classes.sect2coin}>
             <Infocoin />{" "}
@@ -362,6 +357,7 @@ function HomePage() {
           </div>
           
         </Section>
+
         <Section className={classes.section3} id="faqs">
         <div className={classes.sect3info}>
             <h4 style={{ padding: "10px" }}>
@@ -378,7 +374,6 @@ function HomePage() {
                   Share your thoughts and interesting info with your in the message board.
                 </h5>
               </li>
-              
             </ul>
           </div>
           <div className={classes.sect3follow}>

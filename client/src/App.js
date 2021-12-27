@@ -1,20 +1,24 @@
+//------------IMPORT EXTERNAL MODULES---------------
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 
+//------------IMPORT INTERNAL COMPONENTS------------
 import HomePage from "./pages/HomePage";
 import CryptoPage from "./pages/CryptoPage";
 import CoinList from "./pages/CoinList";
 import Footer from "./components/Footer";
 import FavPage from "./pages/FavPage";
 import Friends from "./pages/Friends";
-
 import { UserContext } from "./contexts/UserContext";
 import Account from "./pages/Account";
-import FriendList from "./components/SearchUsers";
 
+//-------------LOCAL SESSION-------------------------
+/* Comprobamos si el usuario está logeado y guardado en el localStorage.
+Si está en el localStorage, lo leemos y lo guardamos en un estado de React.
+ */
 const useStateWithLocalStorage = (localStorageKey) => {
   const [state, setState] = useState(
     JSON.parse(localStorage.getItem(localStorageKey)) || null
@@ -27,12 +31,17 @@ const useStateWithLocalStorage = (localStorageKey) => {
   return [state, setState];
 };
 
+//-------------MAIN APP COMPONENT-------------------------
+/*Componente principal de la aplicación
+ */
 function App() {
-  const [page, setPage] = useState("1");
-  const [userLogged, setUserLogged] = useStateWithLocalStorage("userLogged");
-  const [following, setFollowing] = useState([]);
+  //cargamos los estados necesarios
+  const [page, setPage] = useState("1"); // nos sirve para controlar que TAB está activa en los headers
+  const [userLogged, setUserLogged] = useStateWithLocalStorage("userLogged"); //cargamos el usuario logeado. si no hubiera se carga a null, ver código arriba.
+  const [following, setFollowing] = useState([]);//guardamos los following y followers más adelante, de momento se inicia el estado a array vacío.
   const [followers, setFollowers] = useState([]);
 
+//aquí y durante toda la app utilizamos MakeStyles de Material UI para controlar los estilos de cada componente
   const useStyles = makeStyles(() => ({
     App: {
       backgroundColor: "white",
@@ -40,15 +49,14 @@ function App() {
     },
   }));
 
-  console.log(userLogged);
-
   const classes = useStyles();
+
   return (
+//utilizamos React Router para definir diferentes rutas en la aplicación 
     <BrowserRouter>
       <div className={classes.App}>
-        {/*  <Header/>  */}
-
-        <UserContext.Provider
+{/*         usamos useContext con un contexto definido para compartir estados con todos los componentes y rutas.
+ */}     <UserContext.Provider
           value={{
             userLogged,
             setUserLogged,
@@ -61,7 +69,8 @@ function App() {
           }}
         >
           <Routes>
-            <Route
+{/*             para la ruta raíz comprobamos si el usuario está logeado o no, para llevarlo a la sección privada o la pública
+ */}            <Route
               path="/"
               element={userLogged === "null" ? <HomePage /> : <CoinList />}
             />
