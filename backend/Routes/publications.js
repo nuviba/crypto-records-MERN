@@ -1,8 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
+//middleware para chequear si el usuario tiene iniciada sesion
+function isAuth(req,res,next){
+  //console.log(req.isAuthenticated())
+  if(req.isAuthenticated()){
+      //req.isAuthenticated() will return true if user is logged in
+      next();
+  } else{
+    //console.log("not authentified");
+    res.send({error:true,message:"User not authentified!"});
+  }
+}
+
 //devolver las publicaciones de los usuarios
-router.get('/show', (req,res)=>{
+router.get('/show', isAuth, (req,res)=>{
     req.app.locals.db 
     .collection('publications')
     .find()
@@ -17,14 +29,7 @@ router.get('/show', (req,res)=>{
 })
 
 //guardar la publicación del usuario
-router.post('/post', (req,res)=>{
-    req.app.locals.db 
-    .collection('users')
-    .find({username:req.body.username})
-    .toArray((err,data)=>{
-        if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
-        else if(data.length==0){res.send({error:true,data:err,msg:'User not registered!'})}
-        else{
+router.post('/post', isAuth, (req,res)=>{
             req.body.likes=[]
             req.app.locals.db
             .collection('publications')
@@ -33,40 +38,28 @@ router.post('/post', (req,res)=>{
                 else{ res.send({error:false,data:datos2,msg:'Publication saved'})}
 
             })
-        }
-    })
+        });
         
-    
-});
 //eliminar la publicación del usuario
-router.delete('/delete', (req,res)=>{
-    req.app.locals.db 
-    .collection('users')
-    .find({username:req.body.username})
-    .toArray((err,data)=>{
-        if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
-        else if(data.length==0){res.send({error:true,data:err,msg:'User not registered!'})}
-        else{
+router.delete('/delete', isAuth, (req,res)=>{
             req.app.locals.db
             .collection('publications')
             .deleteOne({dated:req.body.dated},(err2,datos2)=>{
                 if(err2){res.send({error:true,data:err2,msg:'Connection to DB failed!'})}
                 else{ res.send({error:false,data:datos2,msg:'Publication deleted'})}
             })
-        }
-    }) 
-});
+        });
 
 //like a una publicación
 
-router.post("/like", (req, res) => {
+router.post("/like", isAuth, (req, res) => {
     req.app.locals.db
     .collection('publications')
     .find({dated:req.body.dated})
     .toArray((err,data)=>{
       if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
       else if(data.length==0){res.send({error:true,data:err,msg:'Publication not found!'})}
-      else if(data[0].likes.indexOf(req.body.username)>-1){res.send({error:true,data:err,msg:'Publication already liked!'})}
+      else if(data[0].likes.indexOf(req.user.username)>-1){res.send({error:true,data:err,msg:'Publication already liked!'})}
       else{
         data[0].hasOwnProperty('likes') ? data[0].likes.push(req.body.username) : data[0].likes = [req.body.username]
         req.app.locals.db
@@ -83,7 +76,7 @@ router.post("/like", (req, res) => {
 
   // quitar like a una publicación
 
-router.delete("/dislike", (req, res) => {
+router.delete("/dislike", isAuth, (req, res) => {
     req.app.locals.db
     .collection('publications')
     .find({dated:req.body.dated})

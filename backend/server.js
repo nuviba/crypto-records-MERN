@@ -2,6 +2,7 @@
 const express =require('express');
 const dotenv=require('dotenv');
 const mongodb= require ('mongodb');
+var ObjectID = require('mongodb').ObjectID
 const cors = require('cors');
 const passport= require ('passport');
 const bcrypt = require ('bcryptjs');
@@ -71,8 +72,11 @@ passport.serializeUser(function(user, done) {
 
 });
 
-passport.deserializeUser(function(id, done) {
-User.findById(id, function(err, user) {
+passport.deserializeUser(function(user, done) {
+  const userID = new ObjectID(user);
+  app.locals.db
+  .collection("users")
+  .findOne({_id:userID}, function(err, user) {
   done(err, user);
 });
 });

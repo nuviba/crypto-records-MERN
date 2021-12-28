@@ -53,7 +53,7 @@ function SignIn({setRegis}){
       onSubmit={values => {
         return axios({
           method: "POST",
-          url: "http://localhost:4000/users/sign-in",
+          url: "users/sign-in",
           data: values})
           .then((res)=>{console.log(res.data.user);
             if(res.data.isAuth){//IMPORTANTE: comprobamos si el login en el servidor ha sido correcto

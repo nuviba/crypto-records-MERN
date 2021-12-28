@@ -66,7 +66,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
 
   const getPubs = async () => {
     await axios
-      .get(`http://localhost:4000/publications/show`)
+      .get(`publications/show`)
       .then((res) => {
         console.log(res.data);
         setPubs(res.data.data);
@@ -82,7 +82,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
   function ShowPub({ pub }) {
     const deletePub = async () => {
       await axios
-        .delete("http://localhost:4000/publications/delete", {
+        .delete("publications/delete", {
           data: { username: userLogged.username, dated: pub.dated },
         })
         .then((res) => {
@@ -93,7 +93,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
 
     const like = async () => {
       await axios
-        .post("http://localhost:4000/publications/like", {
+        .post("publications/like", {
           dated: pub.dated,
           username: userLogged.username,
         })
@@ -105,7 +105,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
 
     const dislike = async () => {
       await axios
-        .delete("http://localhost:4000/publications/dislike", {
+        .delete("publications/dislike", {
           data: { dated: pub.dated, username: userLogged.username },
         })
         .then((res) => {

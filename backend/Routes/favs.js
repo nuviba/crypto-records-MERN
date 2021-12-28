@@ -1,68 +1,55 @@
 const express = require('express');
 const router = express.Router();
 
+//middleware para chequear si el usuario tiene iniciada sesion
+function isAuth(req,res,next){
+  //console.log(req.isAuthenticated())
+  if(req.isAuthenticated()){
+      //req.isAuthenticated() will return true if user is logged in
+      next();
+  } else{
+    //console.log("not authentified");
+    res.send({error:true,message:"User not authentified!"});
+  }
+}
+
 //devolver los favoritos
-router.post('/' , (req,res)=>{
-    req.app.locals.db 
-    .collection('users')
-    .find({email:req.body.email})
-    .toArray((err,data)=>{
-        if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
-        else if(data.length==0){res.send({error:true,data:err,msg:'User not registered!'})}
-        else{
-            res.send({error:false,data:data[0].favs,msg:'Show favs'})
-        }
-    })
+router.get('/show', isAuth, (req,res)=>{
+    res.send({error:false, data:req.user.favs, msg:'Show favs'})
 })
 //añadir un favorito
 
-router.put("/add", (req, res) => {
-    req.app.locals.db
-    .collection('users')
-    .find({email:req.body.email})
-    .toArray((err,data)=>{
-      if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
-      else if(data.length==0){res.send({error:true,data:err,msg:'User not registered!'})}
-      else if(data[0].favs.indexOf(req.body.coin)>-1){res.send({error:true,data:err,msg:'Fav already added!'})}
+router.put("/add", isAuth, (req, res) => {
+      if(req.user.favs.indexOf(req.body.coin)>-1){res.send({error:true,data:err,msg:'Fav already added!'})}
       else{
-        data[0].hasOwnProperty('favs') ? data[0].favs.push(req.body.coin) : data[0].favs = [req.body.coin]
-        console.log(data[0].favs)
+        req.user.hasOwnProperty('favs') ? req.user.favs.push(req.body.coin) : req.user.favs = [req.body.coin]
+        console.log(req.user.favs)
         req.app.locals.db
         .collection('users')
-        .updateOne({email:req.body.email},{$set:{favs:data[0].favs}},
+        .updateOne({email:req.body.email},{$set:{favs:req.user.favs}},
           (err2,data2)=>{
           if(err2){res.send({error:true,data:err2,msg:'Connection to DB failed!'})}
-          else{res.send({error:false,data:data[0],msg:'Fav correctly added.'})}
+          else{res.send({error:false,data:req.user,msg:'Fav correctly added.'})}
         })
       }
-  
-    })
   });
 
 //eliminar un favorito
 
-router.put("/delete", (req, res) => {
-    req.app.locals.db
-    .collection('users')
-    .find({email:req.body.email})
-    .toArray((err,data)=>{
-      if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
-      else if(data.length==0){res.send({error:true,data:err,msg:'User not registered!'})}
-      else if(data[0].favs.indexOf(req.body.coin)==-1){res.send({error:true,data:err,msg:'Cannot delete a fav that is not registered!'})}
+router.put("/delete", isAuth, (req, res) => {
+      if(req.user.favs.indexOf(req.body.coin)==-1){res.send({error:true,data:err,msg:'Cannot delete a fav that is not registered!'})}
       else{
-        let pos = data[0].favs.indexOf(req.body.coin)
-        data[0].favs.splice(pos,1)
-        console.log(data[0].favs)
+        let pos = req.user.favs.indexOf(req.body.coin)
+        req.user.favs.splice(pos,1)
+        console.log(req.user.favs)
         req.app.locals.db
         .collection('users')
-        .updateOne({email:req.body.email},{$set:{favs:data[0].favs}},
+        .updateOne({email:req.body.email},{$set:{favs:req.user.favs}},
           (err2,data2)=>{
           if(err2){res.send({error:true,data:err2,msg:'Connection to DB failed!'})}
-          else{res.send({error:false,data:data[0],msg:'Fav correctly deleted.'})}
+          else{res.send({error:false,data:req.user,msg:'Fav correctly deleted.'})}
         })
       }
-  
-    })
   });
 
 module.exports=router;

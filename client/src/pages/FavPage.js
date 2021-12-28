@@ -95,7 +95,7 @@ function FavPage() {
   //primero obtenemos el listado de monedas favoritas del server
   useEffect(function () {
     axios
-      .post(`http://localhost:4000/favs/`, { email: userLogged.email })
+      .get(`favs/show`)
       .then((res) => {
         if (res.data.data.length > 0) {
           setFavlist(res.data.data);

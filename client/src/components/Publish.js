@@ -46,7 +46,7 @@ const Publish = ({ refresh, setRefresh }) => {
   const handleSubmit = async () => {
     if (text.length > 0) {
       await axios
-        .post("http://localhost:4000/publications/post", {
+        .post("publications/post", {
           username: userLogged.username,
           firstName: userLogged.firstName,
           lastName: userLogged.lastName,

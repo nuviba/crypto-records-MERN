@@ -9,6 +9,7 @@ import {
   Tab,
   IconButton,
 } from "@material-ui/core";
+import axios from "axios";
 import { NavDropdown } from "react-bootstrap";
 import TabList from "@mui/lab/TabList";
 import Menu from "@mui/material/Menu";
@@ -99,12 +100,10 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
-    //función para hacer logOut de la sesión
   const logOut = () => {
-    setUserLogged("null");
-    localStorage.removeItem("userLogged");
-    navigate("/", { replace: true });
-  };
+            setUserLogged("null");
+            localStorage.removeItem("userLogged");
+            navigate("/", { replace: true })}
 
   const classes = useStyles();
 
@@ -214,10 +213,10 @@ const Header = () => {
         </Typography>
         <Typography>
           <IconButton onClick={handleOpenUserMenu}>
-             <AvatarCustom
+            {/* <AvatarCustom
               firstName={userLogged.firstName}
               lastName={userLogged.lastName}
-            />
+             /> */}
           </IconButton>
           <Menu
             sx={{ mt: "45px" }}

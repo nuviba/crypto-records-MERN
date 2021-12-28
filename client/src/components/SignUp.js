@@ -63,7 +63,7 @@ return(
       onSubmit={values => {//función para manejar el envío al servidor
         return axios({
           method: "POST",
-          url: "http://localhost:4000/users/sign-up",
+          url: "users/sign-up",
           data: values
         }).then((res)=>{console.log(res)
         setRegis(true)})//una vez hecho el sign up mostramos el login

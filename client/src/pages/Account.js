@@ -107,7 +107,7 @@ const UserFollowing = () => {
 
   const getUsers = async () => {
     await axios
-      .get(`http://localhost:4000/users/get`)
+      .get(`users/get`)
       .then((res) => {
         console.log(res.data);
         setUsers(res.data.data);
@@ -163,7 +163,7 @@ const UserFollowers = () => {
 
   const getUsers = async () => {
     await axios
-      .get(`http://localhost:4000/users/get`)
+      .get(`users/get`)
       .then((res) => {
         console.log(res.data);
         setUsers(res.data.data);

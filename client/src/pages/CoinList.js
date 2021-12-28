@@ -172,7 +172,7 @@ useEffect(function () {
                 //funciones para añadir monedas a favoritos o eliminarlas
                       const addFav = async () => {
                         await axios
-                          .put("http://localhost:4000/favs/add", {
+                          .put("favs/add", {
                             email: userLogged.email,
                             coin: crypto.id,
                           })
@@ -184,7 +184,7 @@ useEffect(function () {
 
                       const deleteFav = async () => {
                         await axios
-                          .put("http://localhost:4000/favs/delete", 
+                          .put("favs/delete", 
                           {email: userLogged.email, coin: crypto.id }
                           )
                           .then((res) => {

@@ -71,7 +71,7 @@ const SearchUsers = () => {
 
   const getUsers = async () => {
     await axios
-      .get(`http://localhost:4000/users/get`)
+      .get(`users/get`)
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
@@ -87,7 +87,7 @@ const SearchUsers = () => {
 
     const addFriend = async () => {
       await axios
-        .put("http://localhost:4000/friends/add", {
+        .put("friends/add", {
           email: userLogged.email,
           friend: retuser.username,
         })
@@ -99,7 +99,7 @@ const SearchUsers = () => {
 
     const deleteFriend = async () => {
       await axios
-        .put("http://localhost:4000/friends/delete", { email: userLogged.email, friend: retuser.username })
+        .put("friends/delete", { email: userLogged.email, friend: retuser.username })
         .then((res) => {
           setUserLogged(res.data.data);
           setNumfollowing(numfollowing-1);

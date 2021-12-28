@@ -3,6 +3,18 @@ const router = express.Router();
 const bcrypt = require ('bcryptjs');
 const passport= require ('passport');
 
+//middleware para chequear si el usuario tiene iniciada sesion
+function isAuth(req,res,next){
+  //console.log(req.isAuthenticated())
+  if(req.isAuthenticated()){
+      //req.isAuthenticated() will return true if user is logged in
+      next();
+  } else{
+    //console.log("not authentified");
+    res.send({error:true,message:"User not authentified!"});
+  }
+}
+
 //devolver lista de usuarios
 router.get("/get", function(req,res){
   req.app.locals.db 
@@ -37,7 +49,6 @@ router.get("/get", function(req,res){
 
 //ruta para autentificar al usuario utilizando estrategia locald de passport
 router.post("/sign-in", (req, res, next) => {
-    console.log('entrando al sign-in')
     passport.authenticate("local", (err, user, info) => {
       if (err) throw err;
       if (!user) res.send({message:"User does not exist!",user:null,isAuth:false});
@@ -74,24 +85,20 @@ router.post("/sign-in", (req, res, next) => {
       })
     });
 
+    //Ruta para hacer logout
+    router.post("/logout", isAuth, (req,res)=>{
+      req.logout();
+      res.send({message:"session closed.",error:false})
+    })
+
     //ruta para eliminar un usuario
-    router.delete("/delete", (req, res) => {
-      req.app.locals.db
-      .collection('users')
-      .find({$or:[{email:req.body.email},{username:req.body.username}]})
-      .toArray((err,data)=>{
-        if(err){res.send({error:true,data:err,msg:'Connection to DB failed!'})}
-        else if(data.length==0){res.send({error:true,data:err,msg:'User does not exists!'})}
-        else{
-          req.app.locals.db
-          .collection('users')
-          .deleteOne({email:req.body.email},(err2,data2)=>{
-            if(err2){res.send({error:true,data:err2,msg:'Connection to DB failed!'})}
-            else{res.send({error:false,data:data2,msg:'User correctly deleted.'})}
-          })
-        }
-  
-      })
-    });
+    router.delete("/delete", isAuth, (req, res) => {
+                req.app.locals.db
+                .collection('users')
+                .deleteOne({email:req.user.email},(err2,data2)=>{
+                  if(err2){res.send({error:true,data:err2,msg:'Connection to DB failed!'})}
+                  else{res.send({error:false,data:data2,msg:'User correctly deleted.'})}
+                })
+              });
 
     module.exports=router;
