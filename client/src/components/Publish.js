@@ -39,6 +39,7 @@ const Publish = ({ refresh, setRefresh }) => {
 
   const [text, setText] = useState("");
   const [feedback, setFeedback] = useState("");
+  
   const handleChange = (e) => {
     setText(e.target.value);
   };

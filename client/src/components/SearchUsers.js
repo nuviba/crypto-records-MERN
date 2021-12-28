@@ -65,10 +65,12 @@ const SearchUsers = () => {
   const classes = useStyles();
   const { userLogged, setUserLogged, following, followers } = useContext(UserContext);
 
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState([]);
+  const [username, setUsername] = useState(""); //estado para el input de busqueda
+  const [user, setUser] = useState([]); //para guardar lista de usuarios
   const [numfollowing, setNumfollowing] = useState(following.length)
 
+  //guardamos la lista de todos los usuarios
+  
   const getUsers = async () => {
     await axios
       .get(`users/get`)
@@ -82,6 +84,7 @@ const SearchUsers = () => {
   useEffect(() => {
     getUsers();
   }, []);
+
   //función para devolver un usuario concreto con la opción de añadir/quitar de followers
   function ReturnUser({ retuser }) {
 

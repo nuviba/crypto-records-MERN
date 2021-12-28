@@ -15,42 +15,6 @@ function isAuth(req,res,next){
   }
 }
 
-router.get("/me", isAuth, (req,res)=>{
-  res.send(req.user);
-})
-
-//devolver lista de usuarios
-router.get("/get", function(req,res){
-  req.app.locals.db 
-  .collection("users")
-  .find()
-  .toArray(function(err,datos){
-      if(err){
-          res.send({
-              error:true,
-              data:err,
-              mensaje:"Connection failed with database."
-          })
-      }
-      else{
-          if(datos.length==0){
-              res.send({
-                  error:true,
-                  data:err,
-                  mensaje:"No user has been found!"
-                  })
-          }
-          else{
-              res.send({
-                  error:false,
-                  data:datos,
-                  mensaje:"Succesful!"
-              })
-          }
-      }
-  })
-})
-
 //ruta para autentificar al usuario utilizando estrategia locald de passport
 router.post("/sign-in", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
@@ -95,6 +59,42 @@ router.post("/sign-in", (req, res, next) => {
       res.send({message:"session closed.",error:false})
     })
 
+    router.get("/me", isAuth, (req,res)=>{
+      res.send(req.user);
+    })
+    
+    //devolver lista de usuarios
+    router.get("/get", function(req,res){
+      req.app.locals.db 
+      .collection("users")
+      .find()
+      .toArray(function(err,datos){
+          if(err){
+              res.send({
+                  error:true,
+                  data:err,
+                  mensaje:"Connection failed with database."
+              })
+          }
+          else{
+              if(datos.length==0){
+                  res.send({
+                      error:true,
+                      data:err,
+                      mensaje:"No user has been found!"
+                      })
+              }
+              else{
+                  res.send({
+                      error:false,
+                      data:datos,
+                      mensaje:"Succesful!"
+                  })
+              }
+          }
+      })
+    })
+    
     //ruta para eliminar un usuario
     router.delete("/delete", isAuth, (req, res) => {
                 req.app.locals.db

@@ -33,6 +33,7 @@ MongoClient.connect(process.env.MONGO_URI,(err,client)=>{
 //____MIDDLEWARE_______________________
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(
   cors({
   })
@@ -61,7 +62,7 @@ passport.use(
           if (!user) return done (null, false);
           bcrypt.compare(password, user.password, (err,result)=>{
               if(err) throw err;
-              result===true ? done(null,user) : done(null,false);
+              result===true ? done(null,user) : done(null,false); // si todo ok devolvemos el usuario
           })
       })
   })
@@ -84,15 +85,18 @@ passport.deserializeUser(function(user, done) {
 //____END-MIDDLEWARE_______________________
 
 //____ROUTES____________________________
+//ruta de prueba para comprobar que el servidor responde
 app.get('/', (req,res)=>{
     res.send("API is 🏃🏻‍♂️");
 });
 
+//importamos las rutas
 let users=require('./Routes/users');
 let favs=require('./Routes/favs');
 let friends=require('./Routes/friends');
 let publications=require('./Routes/publications');
 
+//usamos las rutas en la dirección especificada
 app.use('/users',users);
 app.use('/favs',favs);
 app.use('/friends',friends);
@@ -112,4 +116,4 @@ app.get("*", function (request, response) {
 
 const PORT =process.env.PORT || 4000;
 
-app.listen(4000,console.log(`💩Server started on PORT ${PORT}`));
+app.listen(PORT, console.log(`💩Server started on PORT ${PORT}`));

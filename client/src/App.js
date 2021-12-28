@@ -16,7 +16,7 @@ import { UserContext } from "./contexts/UserContext";
 import Account from "./pages/Account";
 
 //-------------LOCAL SESSION-------------------------
-/* Comprobamos si el usuario está logeado y guardado en el localStorage.
+/* Comprobamos si el usuario está guardado en el localStorage.
 Si está en el localStorage, lo leemos y lo guardamos en un estado de React.
  */
 const useStateWithLocalStorage = (localStorageKey) => {
