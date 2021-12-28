@@ -27,8 +27,8 @@ const Banner = () => {
   const classes = useStyles();
   return (
     <div className={classes.banner}>
-      <Container className={classes.bannerContent}>
-        <InteractvList />
+      <Container key='containerBanner' className={classes.bannerContent}>
+        <InteractvList key='interactivList'  />
       </Container>
     </div>
   );

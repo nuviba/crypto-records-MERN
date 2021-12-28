@@ -67,7 +67,7 @@ const Publish = ({ refresh, setRefresh }) => {
   return (
     <div className={classes.publicationBox}>
       <h5>{`What do you want to share, ${userLogged.firstName}?`}</h5>
-      <TextArea
+      <TextArea key="textarea"
         className={classes.textBox}
         growVertically={false}
         large={true}
@@ -76,7 +76,7 @@ const Publish = ({ refresh, setRefresh }) => {
         value={text}
       />
       <p>{feedback}</p>
-      <Button
+      <Button key="butpublish"
         className={classes.buttonBox}
         onClick={handleSubmit}
         variant="outline-dark"

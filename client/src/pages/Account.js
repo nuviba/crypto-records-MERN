@@ -77,7 +77,8 @@ const UserDetails = () => {
   return (
     <div className={classes.userDetails}>
       <div className={classes.head}>
-        <AvatarCustom
+        <AvatarCustom 
+          key="avatarUD"
           className={classes.avatar}
           firstName={userLogged.firstName}
           lastName={userLogged.lastName}
@@ -125,11 +126,12 @@ const UserFollowing = () => {
     setFollowing(friends);
   }, [users]);
   //para cada following creamos un elemento con su avatar y nombre de usuario
-  const followingList = following.map((follow) => {
+  const followingList = following.map((follow, i) => {
     return (
       <li className={classes.list}>
         {
           <AvatarCustom
+            key={`avfollowing_${i}`}
             firstName={follow.firstName}
             lastName={follow.lastName}
           />
@@ -182,11 +184,12 @@ const UserFollowers = () => {
     setFollowers(friends);
   }, [users]);
 
-  const followersList = followers.map((follow) => {
+  const followersList = followers.map((follow, i) => {
     return (
       <li className={classes.list}>
         {
           <AvatarCustom
+            key={`avfollowers_${i}`}
             firstName={follow.firstName}
             lastName={follow.lastName}
           />
@@ -212,11 +215,11 @@ const Account = () => {
   const classes = useStyles();
   return (
     <div>
-      <Header />
+      <Header key="header" />
       <div className={classes.account}>
-        <UserDetails />
-        <UserFollowing />
-        <UserFollowers />
+        <UserDetails key="userdetails" />
+        <UserFollowing key="userfollowing" />
+        <UserFollowers key="userfollowers" />
       </div>
     </div>
   );

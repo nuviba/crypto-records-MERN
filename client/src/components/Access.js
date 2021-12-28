@@ -59,8 +59,8 @@ function Access ({showAcc,setShowAcc, regis, setRegis}){
           <div className={classes.global}>      
           <div className={classes.sgnIn} showAcc={showAcc}>
             {regis? //dependiendo del valor del estado, mostramos signIn o signUp
-            <SignIn setRegis={setRegis}/>
-            :<SignUp setRegis={setRegis} />}
+            <SignIn key='signIn' setRegis={setRegis}/>
+            :<SignUp key="signUp" setRegis={setRegis} />}
             <div >
                 <span className={classes.closeBut} onClick={()=>setShowAcc(prev=> !prev)}>X</span>
             </div>

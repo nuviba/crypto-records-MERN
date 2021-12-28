@@ -72,6 +72,7 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
     <>
       <div className={classes.sec2}>
         <Line
+          key='plotHP'
           data={{
             labels: dataCrypt.map((element) => {
               let date = new Date(element[0]);
@@ -95,6 +96,7 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
         />
         <div>
           <Button
+            key='but1Plot'
             onClick={() => {
               setDays(1);
             }}
@@ -104,6 +106,7 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
             24h
           </Button>
           <Button
+          key='but2Plot'
             onClick={() => {
               setDays(7);
             }}
@@ -113,6 +116,7 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
             1W
           </Button>
           <Button
+            key='but3Plot'
             onClick={() => {
               setDays(30);
             }}
@@ -122,6 +126,7 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
             1M
           </Button>
           <Button
+            key='but4Plot'
             onClick={() => {
               setDays(365);
             }}
@@ -131,6 +136,7 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
             1Y
           </Button>
           <Button
+            key='but5Plot'
             onClick={() => {
               setDays(365 * 5);
             }}

@@ -135,8 +135,9 @@ useEffect(function () {
 
       <div className={classes.mainList}>
         {/* barra de búsqueda */}
-        <div key="search" className={classes.searchCryp}>
+        <div  className={classes.searchCryp}>
           <TextField
+            key="search"
             className={classes.searchBar}
             onChange={handleChange}
             id="standard-basic"
@@ -146,10 +147,10 @@ useEffect(function () {
           />
         </div>
 
-        <Table className={classes.table}>
+        <Table key="table" className={classes.table}>
 
-          <TableHead>
-            <TableRow>
+          <TableHead key="tableHead">
+            <TableRow key="rowTableHead">
               {["Fav", "Coin", "24h % var", "Current price", "Market cap"].map(
                 (el) => {
                   return (
@@ -165,10 +166,10 @@ useEffect(function () {
             </TableRow>
           </TableHead>
 
-          <TableBody>
+          <TableBody key="tableBody">
             {handlePage()
               .slice((page - 1) * 5, (page - 1) * 5 + 5)
-              .map((crypto) => {
+              .map((crypto, i) => {
                 //funciones para añadir monedas a favoritos o eliminarlas
                       const addFav = async () => {
                         await axios
@@ -193,10 +194,11 @@ useEffect(function () {
                           });
                       };//estamos aún en el map!
                         return (
-                          <TableRow className={classes.row}>
-                            <TableCell className={classes.cell}>
+                          <TableRow key={`row${i}`} className={classes.row}>
+                            <TableCell key={`cell1_${i}`} className={classes.cell}>
                               {userLogged.favs.indexOf(crypto.id) === -1 ? (
                                 <Icon
+                                  key={`icon1_${i}`}
                                   className={classes.starEmpty}
                                   onClick={addFav}
                                   color="#D8E1E8"
@@ -206,6 +208,7 @@ useEffect(function () {
                                 />
                               ) : (
                                 <Icon
+                                  key={`icon1_${i}`}
                                   className={classes.star}
                                   onClick={deleteFav}
                                   color="#D8E1E8"
@@ -215,8 +218,8 @@ useEffect(function () {
                                 />
                               )}
                             </TableCell>
-                            <TableCell className={classes.cell}>
-                              <Link
+                            <TableCell key={`cell2_${i}`} className={classes.cell}>
+                              <Link key={`link_${i}`}
                                 onClick={() => {
                                   setPage(0);
                                 }}
@@ -230,7 +233,7 @@ useEffect(function () {
                                     className={classes.img}
                                   />
                                 </div>
-                                <MediaQuery query="(min-width:900px)">
+                                <MediaQuery key={`mq_${i}`} query="(min-width:900px)">
                                   <div>
                                     <p>
                                       <b>{crypto.name}</b>
@@ -240,7 +243,7 @@ useEffect(function () {
                                 </MediaQuery>
                               </Link>
                             </TableCell>
-                            <TableCell className={classes.cell}>
+                            <TableCell key={`cell3_${i}`} className={classes.cell}>
                               {crypto.price_change_percentage_24h ? (
                                 crypto.price_change_percentage_24h < 0 ? (
                                   <p className={classes.percentRed}>
@@ -255,12 +258,12 @@ useEffect(function () {
                                 <p className={classes.percentRed}>No data</p>
                               )}
                             </TableCell>
-                            <TableCell className={classes.cell}>
+                            <TableCell key={`cell4_${i}`} className={classes.cell}>
                               <p className={classes.priceCryp}>
                                 {crypto.current_price.toLocaleString()}€
                               </p>
                             </TableCell>
-                            <TableCell className={classes.cell}>
+                            <TableCell key={`cell5_${i}`} className={classes.cell}>
                               <p className={classes.marktCap}>
                                 {crypto.market_cap.toLocaleString()}€
                               </p>

@@ -145,10 +145,10 @@ function FavPage() {
     ) : favData.length === 0 ? (
       <Nofavs />
     ) : (
-      <Table stickyHeader className={classes.table}>
-        <TableHead className={classes.head}>
-          <TableRow className={classes.headRow}>
-            <MediaQuery query="(min-width:900px)">
+      <Table key="table" stickyHeader className={classes.table}>
+        <TableHead key="tableHead" className={classes.head}>
+          <TableRow key="tableRow" className={classes.headRow}>
+            <MediaQuery key="mq" query="(min-width:900px)">
               {[
                 "Coin",
                 "24h var plot",
@@ -167,7 +167,7 @@ function FavPage() {
                 );
               })}
             </MediaQuery>
-            <MediaQuery query="(max-width:899px)">
+            <MediaQuery key="mq1" query="(max-width:899px)">
               {["Coin", "24h % var", "Current price", "Market cap"].map(
                 (el) => {
                   return (
@@ -185,8 +185,8 @@ function FavPage() {
           </TableRow>
         </TableHead>
 
-        <TableBody>
-          {favData.map((fav) => {
+        <TableBody key='tableBody'>
+          {favData.map((fav, i) => {
             const color = fav.market_data.price_change_percentage_24h
               ? fav.market_data.price_change_percentage_24h < 0
                 ? "red"
@@ -194,9 +194,9 @@ function FavPage() {
               : null;
 
             return (
-              <TableRow>
-                <TableCell className={classes.cell}>
-                  <Link
+              <TableRow key={`row${i}`}>
+                <TableCell key={`cell1_${i}`} className={classes.cell}>
+                  <Link key={`link_${i}`}
                     to={`/crypto/${fav.id}`}
                     className={classes.linkCrypt}
                     onClick={() => {
@@ -210,7 +210,7 @@ function FavPage() {
                         className={classes.img}
                       />
                     </div>
-                    <MediaQuery query="(min-width:900px)">
+                    <MediaQuery key={`mq_${i}`} query="(min-width:900px)">
                       <div className={classes.name}>
                         <p className={classes.name}>
                           <b>{fav.name}</b>
@@ -222,10 +222,10 @@ function FavPage() {
                     </MediaQuery>
                   </Link>
                 </TableCell>
-                <MediaQuery query="(min-width:900px)">
-                  <TableCell className={classes.cell}>
+                <MediaQuery key={`mq2_${i}`} query="(min-width:900px)">
+                  <TableCell key={`cell2_${i}`} className={classes.cell}>
                     <div className={classes.miniPlot}>
-                      <MiniPlot
+                      <MiniPlot key={`miniplot_${i}`}
                         crypto={fav.id}
                         bordercolor={color}
                         bkcolor={color}
@@ -233,7 +233,7 @@ function FavPage() {
                     </div>
                   </TableCell>
                 </MediaQuery>
-                <TableCell className={classes.cell}>
+                <TableCell key={`cell3_${i}`} className={classes.cell}>
                   {fav.market_data.price_change_percentage_24h ? (
                     fav.market_data.price_change_percentage_24h < 0 ? (
                       <p className={classes.percentRed}>
@@ -250,12 +250,12 @@ function FavPage() {
                     <p className={classes.percentRed}>No data</p>
                   )}
                 </TableCell>
-                <TableCell className={classes.cell}>
+                <TableCell key={`cell4_${i}`} className={classes.cell}>
                   <p className={classes.priceCryp}>
                     {fav.market_data.current_price.eur.toLocaleString()}€
                   </p>
                 </TableCell>
-                <TableCell className={classes.cell}>
+                <TableCell key={`cell5_${i}`} className={classes.cell}>
                   <p className={classes.marktCap}>
                     {fav.market_data.market_cap.eur.toLocaleString()}€
                   </p>
@@ -269,10 +269,10 @@ function FavPage() {
   }
   return (
     <div>
-      <Header />
+      <Header key="header" />
 
       <div className={classes.favs}>
-        <CoinFavs />
+        <CoinFavs key="coinfavs" />
       </div>
     </div>
   );

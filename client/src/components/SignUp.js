@@ -50,7 +50,7 @@ const SignUp = ({setRegis}) =>{
 const classes= useStyles();
   
 return(
-    <Formik
+    <Formik key='formikSU'
       initialValues={{//valores iniciales del formulario, vacíos por defecto
         username: '',
         email: '',
@@ -70,7 +70,7 @@ return(
       }}
       render={({ errors, touched }) => (
         <>
-        <Form>
+        <Form key='formSU'>
           
           <div className={classes.signup}>
           <p>{'Not yet registered? '}<br/>{'Fill this up to join us!'}</p> 
@@ -118,7 +118,7 @@ return(
             </div> 
           </p>
           
-          <Button type="submit">Sign Up</Button>
+          <Button key='buttonSU' type="submit">Sign Up</Button>
           </div>
         </Form>
         </>

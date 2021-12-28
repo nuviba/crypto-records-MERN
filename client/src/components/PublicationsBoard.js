@@ -115,18 +115,18 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
     };
     const date = new Date(pub.dated);
     const likeUsers = pub.likes.map((like) => {
-      return <DropdownItem>{like}</DropdownItem>; //mostraos DD para mostrar quien ha dado like a la publicación
+      return <DropdownItem key={`droplike_${pub.dated}`}>{like}</DropdownItem>; //mostraos DD para mostrar quien ha dado like a la publicación
     });
     const likeNumber = pub.likes.length; //nos muestra el número de likes
     //componente para mostrar likes de la publicación
     function ShowLikes() {
       return (
         <>
-          <Dropdown className={classes.buttonLikes}>
-            <DropdownToggle variant="outline-dark">
+          <Dropdown key={`ddlike_${pub.dated}`} className={classes.buttonLikes}>
+            <DropdownToggle key={`ddtoogle_${pub.dated}`} variant="outline-dark">
               {likeNumber} likes
             </DropdownToggle>
-            <DropdownMenu>{likeUsers}</DropdownMenu>
+            <DropdownMenu key={`ddmenu_${pub.dated}`}>{likeUsers}</DropdownMenu>
           </Dropdown>
         </>
       );
@@ -135,7 +135,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
     return (
       <div className={classes.publication}>
         <div className={classes.headPublication}>
-          <AvatarCustom firstName={pub.firstName} lastName={pub.lastName} />
+          <AvatarCustom key={`av_${pub.dated}`} firstName={pub.firstName} lastName={pub.lastName} />
           <p>@{pub.username}</p>
           <p>{date.toUTCString()}</p>
         </div>
@@ -144,7 +144,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
         <div className={classes.footerPublication}>
           {likeNumber === 0 ? <p>No likes yet!</p> : <ShowLikes />}
           {pub.username === userLogged.username ? (
-            <Button
+            <Button key={`but_delete_${pub.dated}`}
               className={classes.buttonBox}
               onClick={deletePub}
               variant="outline-dark"
@@ -152,7 +152,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
               Delete
             </Button>
           ) : pub.likes.indexOf(userLogged.username) === -1 ? (
-            <Icon
+            <Icon key={`iconlike_${pub.dated}`}
               color="black"
               icon="thumbs-up"
               size={25}
@@ -160,7 +160,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
               intent="primary"
             />
           ) : (
-            <Icon
+            <Icon key={`iconlike_${pub.dated}`}
               color="black"
               icon="thumbs-down"
               size={25}
@@ -187,8 +187,8 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
           userLogged.username === pub.username
       );
       //filtramos para mostrar las publicaciones solo de nuestros following
-      const publistFriends = publist.map((e) => {
-        return <ShowPub pub={e} />;
+      const publistFriends = publist.map((e,i) => {
+        return <ShowPub key={`showpub_${i}`} pub={e} />;
       });
       console.log(publist);
 
@@ -197,7 +197,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
   }
   return (
     <div className={classes.publications}>
-      <Publications />
+      <Publications key="publications" />
     </div>
   );
 };

@@ -107,10 +107,11 @@ const Header = () => {
   const classes = useStyles();
 
   return (
-    <AppBar className={classes.header}>
-      <Toolbar className={classes.toolbar}>
-        <Typography className={classes.title} variant="h5">
+    <AppBar key='appBarH' className={classes.header}>
+      <Toolbar key='toolBarH' className={classes.toolbar}>
+        <Typography key='typoLogoH' className={classes.title} variant="h5">
           <Link
+            key='linkLogoH'
             onClick={() => {
               setPage("1");
             }}
@@ -124,15 +125,17 @@ const Header = () => {
             />
           </Link>
         </Typography>
-        <Typography className={classes.titleH} variant="h5">
-          <MediaQuery query="(min-width:700px)">
-            <TabContext className={classes.menu} value={page}>
+        <Typography key='typotitleH' className={classes.titleH} variant="h5">
+          <MediaQuery key='mediaQuery1H' query="(min-width:700px)">
+            <TabContext key='tabContextH' className={classes.menu} value={page}>
               <TabList
+                key='tabListH'
                 textColor="white"
                 indicatorColor="primary"
                 aria-label="lab API tabs example"
               >
                 <Tab
+                  key='tab1H'
                   onClick={() => {
                     setPage("1");
                     navigate("/");
@@ -142,6 +145,7 @@ const Header = () => {
                 />
 
                 <Tab
+                  key='tab2H'
                   onClick={() => {
                     setPage("2");
                     navigate("/my-crypto");
@@ -151,6 +155,7 @@ const Header = () => {
                 />
 
                 <Tab
+                  key='tab3H'
                   onClick={() => {
                     setPage("3");
                     navigate("/friends");
@@ -161,16 +166,18 @@ const Header = () => {
               </TabList>
             </TabContext>
           </MediaQuery>
-          <MediaQuery query="(max-width:699px)">
+          <MediaQuery key='mediaQuery2H' query="(max-width:699px)">
             <div className={classes.ddMenu}>
               <NavDropdown
+                key='navDropdownH'
                 bsPrefix="navdrop"
                 menuVariant="dark"
                 active={false}
                 disabled={false}
                 title={
-                  <IconButton>
+                  <IconButton key='iconMenuH'>
                     <Icon
+                      key='iconMenu2H'
                       color="white"
                       icon="menu"
                       size={30}
@@ -180,6 +187,7 @@ const Header = () => {
                 }
               >
                 <NavDropdown.Item
+                  key='ndI1'
                   className={classes.ddItem}
                   onClick={() => {
                     setPage("1");
@@ -189,6 +197,7 @@ const Header = () => {
                   List
                 </NavDropdown.Item>
                 <NavDropdown.Item
+                  key='ndI2'
                   className={classes.ddItem}
                   onClick={() => {
                     setPage("2");
@@ -198,6 +207,7 @@ const Header = () => {
                   My cryptos
                 </NavDropdown.Item>
                 <NavDropdown.Item
+                  key='ndI3'
                   className={classes.ddItem}
                   onClick={() => {
                     setPage("3");
@@ -210,14 +220,16 @@ const Header = () => {
             </div>
           </MediaQuery>
         </Typography>
-        <Typography>
-          <IconButton onClick={handleOpenUserMenu}>
+        <Typography key='typoUserMenu'>
+          <IconButton key='iconButUserMenu' onClick={handleOpenUserMenu}>
             <AvatarCustom
+              key='avaterUM'
               firstName={userLogged.firstName}
               lastName={userLogged.lastName}
              />
           </IconButton>
           <Menu
+            key='userMenu'
             sx={{ mt: "45px" }}
             id="menu-appbar"
             anchorEl={anchorElUser}
@@ -233,20 +245,22 @@ const Header = () => {
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
           >
-            <MenuItem>
+            <MenuItem key='accountMU'>
               <Link
+                key='linkAccount'
                 onClick={() => {
                   setPage(0);
                 }}
                 className={classes.linkAccount}
                 to="/account"
               >
-                <Typography textAlign="center">Account</Typography>
+                <Typography key='accountTypo' textAlign="center">Account</Typography>
               </Link>
             </MenuItem>
-            <MenuItem>
-              <Typography onClick={logOut} textAlign="center">
+            <MenuItem key='logOutMU'> 
+              <Typography  key='logOutTypo' onClick={logOut} textAlign="center">
                 <Icon
+                  key='logOuticon'
                   color="#black"
                   icon="log-out"
                   size={20}

@@ -42,13 +42,13 @@ function Friends() {
 
   return (
     <div>
-      <Header />
+      <Header key="header" />
       <div className={classes.friends}>
         <div className={classes.publishSearch}>
-          <SearchUsers />
-          <Publish setRefresh={setRefresh} refresh={refresh} />
+          <SearchUsers key="searchusers" />
+          <Publish key="publish" setRefresh={setRefresh} refresh={refresh} />
         </div>
-        <PublicationsBoard setRefresh={setRefresh} refresh={refresh} />
+        <PublicationsBoard key="PublicationsBoard" setRefresh={setRefresh} refresh={refresh} />
       </div>
     </div>
   );

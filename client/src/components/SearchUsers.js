@@ -110,7 +110,7 @@ const SearchUsers = () => {
       <div className={classes.userFound}>
         <p className={classes.userName}>@{retuser.username}</p>
         {userLogged.friends.indexOf(retuser.username) === -1 ? (
-          <Icon
+          <Icon key={`icon_${retuser.username}`}
             style={{ cursor: "pointer" }}
             color="black"
             icon="new-person"
@@ -119,7 +119,7 @@ const SearchUsers = () => {
             intent="primary"
           />
         ) : (
-          <Icon
+          <Icon key={`icon_${retuser.username}`}
             style={{ cursor: "pointer" }}
             color="black"
             icon="delete"
@@ -186,7 +186,7 @@ const SearchUsers = () => {
         />
 
         <div className={classes.searchResult}>
-          <FindUsers />
+          <FindUsers key="findusers" />
         </div>
       </div>
     </div>

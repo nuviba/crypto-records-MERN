@@ -74,7 +74,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
   return (
     <>
       <div className={classes.sec2}>
-        <Line
+        <Line key="lineplot"
           data={{
             labels: dataCrypt.map((element) => {
               let date = new Date(element[0]);
@@ -97,7 +97,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
           options={{ maintainAspectRatio: true, plugins: { legend: false } }}
         />
         <div>
-          <Button
+          <Button key="but1"
             onClick={() => {
               setDays(1);
             }}
@@ -106,7 +106,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
           >
             24h
           </Button>
-          <Button
+          <Button key="but2"
             onClick={() => {
               setDays(7);
             }}
@@ -115,7 +115,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
           >
             1 WEEK
           </Button>
-          <Button
+          <Button key="but3"
             onClick={() => {
               setDays(30);
             }}
@@ -124,7 +124,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
           >
             1 MONTH
           </Button>
-          <Button
+          <Button key="but4"
             onClick={() => {
               setDays(365);
             }}
@@ -133,7 +133,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
           >
             1 YEAR
           </Button>
-          <Button
+          <Button key="but5"
             onClick={() => {
               setDays(365 * 5);
             }}

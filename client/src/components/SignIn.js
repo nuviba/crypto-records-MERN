@@ -44,7 +44,7 @@ function SignIn({setRegis}){
 
   //usamos Formik para validar el contenido del formulario antes de enviar al server. Comprobamos forma, no tiene nada que ver con la autentificación. Una vez los campos requeridos están rellenos y el usuario accede la información se envía al server
   return(
-    <Formik
+    <Formik key='formikSI'
       initialValues={{
         email: '',
         password: '',
@@ -67,7 +67,7 @@ function SignIn({setRegis}){
         })
       }}
       render={({ errors, touched }) => (
-    <Form>
+    <Form key="formSI">
       <div className={classes.signin}>
         <div className={classes.signininput}>
         <p>Log in to follow cryptos with us!</p>
@@ -79,7 +79,7 @@ function SignIn({setRegis}){
         </div>
         </div>
         <p>{feed}</p>
-        <Button className={classes.button} type="submit">Sign In</Button>
+        <Button key="butSI"className={classes.button} type="submit">Sign In</Button>
 
       </div>
     </Form>)}

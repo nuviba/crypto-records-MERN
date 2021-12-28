@@ -33,7 +33,7 @@ function stringAvatar(name) {
 }
 
 const AvatarCustom = ({ firstName, lastName }) => {
-  return <Avatar {...stringAvatar(`${firstName} ${lastName}`)} />;
+  return <Avatar key='av' {...stringAvatar(`${firstName} ${lastName}`)} />;
 };
 
 export default AvatarCustom;

@@ -22,17 +22,17 @@ const Footer = () => {
 
   return (
     <div>
-      <MDBFooter color="#4B515D" className={classes.footer}>
-        <MDBContainer>
+      <MDBFooter key='mdbFooter' color="#4B515D" className={classes.footer}>
+        <MDBContainer key='cont1Footer'>
           <a href="https://www.linkedin.com/in/nuviba/">
             <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="linkedin" />
           </a>
         </MDBContainer>
 
-        <MDBContainer fluid>
+        <MDBContainer key='cont2Footer' fluid>
           CryptoRecords-{new Date().getFullYear()}-
         </MDBContainer>
-        <MDBContainer>
+        <MDBContainer key='cont3Footer'>
           <a href="https://github.com/nuviba/CryptoRecords">
             <img src="https://img.icons8.com/fluency/48/000000/github.png" alt="github" />{" "}
           </a>

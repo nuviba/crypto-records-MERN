@@ -55,7 +55,8 @@ const MiniPlot = ({crypto,bordercolor,bkcolor}) => {
     return (
         <div className={classes.mainDiv}>
             <div className={classes.sec2}>
-              <Line
+              <Line 
+                key='miniPlot'
                 data={{
                   labels:dataCrypt.map((element)=>{
                     let date = new Date(element[0]);

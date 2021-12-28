@@ -66,6 +66,7 @@ const responsive = {
     <div>
       <div className={classes.styleList}>
           <AliceCarousel
+            key='carrousel'
             mouseTracking
             infinite
             autoPlayInterval={1000}

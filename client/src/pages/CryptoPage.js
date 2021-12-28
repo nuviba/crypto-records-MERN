@@ -94,7 +94,7 @@ const CryptoPage = () => {
 
   return (
     <>
-      <Header />
+      <Header key="header"/>
 
       <div className={classes.appCryp}>
         <div className={classes.sec1}>
@@ -105,7 +105,7 @@ const CryptoPage = () => {
             </h3>
             <h3>Rank #{crypt.market_cap_rank}</h3>
           </div>
-          <MediaQuery query="(min-width:900px)">
+          <MediaQuery key="mq" query="(min-width:900px)">
             <div className={classes.details}>
               <p className={classes.description}>
                 {ReactHtmlParser(crypt.description.en.split(". ")[0])}.
@@ -131,7 +131,7 @@ const CryptoPage = () => {
           </div>
         </div>
 
-        <CryptoPlot
+        <CryptoPlot key={`plot_${id}`}
           className={classes.plot}
           crypto={id}
           bkcolor="green"

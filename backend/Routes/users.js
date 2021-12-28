@@ -15,6 +15,10 @@ function isAuth(req,res,next){
   }
 }
 
+router.get("/me", isAuth, (req,res)=>{
+  res.send(req.user);
+})
+
 //devolver lista de usuarios
 router.get("/get", function(req,res){
   req.app.locals.db 

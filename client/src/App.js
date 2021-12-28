@@ -53,10 +53,11 @@ function App() {
 
   return (
 //utilizamos React Router para definir diferentes rutas en la aplicación 
-    <BrowserRouter>
+    <BrowserRouter key='browserRoute'>
       <div className={classes.App}>
 {/*         usamos useContext con un contexto definido para compartir estados con todos los componentes y rutas.
  */}     <UserContext.Provider
+          key='userContext'
           value={{
             userLogged,
             setUserLogged,
@@ -68,21 +69,22 @@ function App() {
             setFollowers,
           }}
         >
-          <Routes>
+          <Routes key='routes'>
 {/*             para la ruta raíz comprobamos si el usuario está logeado o no, para llevarlo a la sección privada o la pública
- */}        <Route
+ */}        <Route 
+              key='routeRoot'
               path="/"
               element={userLogged === "null" ? <HomePage /> : <CoinList />}
             />
-            <Route path="/crypto/:id" element={<CryptoPage />} />
-            <Route path="/my-crypto" element={<FavPage />} />
-            <Route path="/friends" element={<Friends />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/list" element={<CoinList />} />
+            <Route key='routeCryptoPage' path="/crypto/:id" element={<CryptoPage />} />
+            <Route key='routefav' path="/my-crypto" element={<FavPage />} />
+            <Route key='routefriends' path="/friends" element={<Friends />} />
+            <Route key='routeAccount' path="/account" element={<Account />} />
+            <Route key='routeList' path="/list" element={<CoinList />} />
           </Routes>
         </UserContext.Provider>
 
-        <Footer />
+        <Footer key='footer' />
       </div>
     </BrowserRouter>
   );

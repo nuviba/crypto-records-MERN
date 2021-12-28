@@ -243,10 +243,10 @@ function HomePage() {
 
     return (
       <>{/* Usamos AppBar de MUI para hacer un header fijo */}
-        <AppBar className={classes.header}>
-          <Toolbar className={classes.toolbar}>
-            <Typography>
-              <Link to="/">
+        <AppBar key="appbarHP" className={classes.header}>
+          <Toolbar key="toolBarHP" className={classes.toolbar}>
+            <Typography key="typoLogoHP">
+              <Link key="linkLogo" to="/">
                 <img
                   className={classes.logo}
                   src="../logos/logoW.png"
@@ -257,17 +257,19 @@ function HomePage() {
 
             {/* Usamos MediaQuery de react-responsive para mostrar componentes según el tamaño de pantalla
             Para dispositivos móviles no mostramos las secciones en el header */}
-            <MediaQuery query="(min-width:900px)">
-              <TabContext className={classes.menu} value={value}>
+            <MediaQuery key="mediaQueryHP" query="(min-width:900px)">
+              <TabContext key="tabContextHP" className={classes.menu} value={value}>
                 <TabList
+                  key="tabListHP"
                   textColor="white"
                   indicatorColor="primary"
                   onChange={handleChange}
                   aria-label="lab API tabs example"
                 >
-                  <Tab onClick={section1.onClick} label="Trending" value="1" />
-                  <Tab onClick={section2.onClick} label="Up&Down" value="2" />
+                  <Tab key="tab1HP" onClick={section1.onClick} label="Trending" value="1" />
+                  <Tab key="tab2HP" onClick={section2.onClick} label="Up&Down" value="2" />
                   <Tab
+                    key="tab3HP"
                     onClick={section3.onClick}
                     label="Friends and more"
                     value="3"
@@ -276,8 +278,9 @@ function HomePage() {
               </TabContext>
             </MediaQuery>
 
-            <Typography>
+            <Typography key="typologinHP">
               <Button
+                key="butonLoginHP"
                 className={classes.butLogIn}
                 onClick={openLogIn}
                 variant="outline-light"
@@ -295,11 +298,12 @@ function HomePage() {
   const classes = useStyles();
   return (
     <div className={classes.homePage}>
-      <ScrollingProvider>
-        <StaticMenu />
-        <Section>
+      <ScrollingProvider key="scrollingHP">
+        <StaticMenu key="staticMenuHP"/>
+        <Section key="secAccesHP">
           {/* componente que muestra el pop-up del login/signup */}
           <Access
+            key="AccesHP"
             showAcc={showAcc}
             setShowAcc={setShowAcc}
             regis={regis}
@@ -307,25 +311,26 @@ function HomePage() {
           />
         </Section>
 
-        <Section className={classes.section1} id="home">
+        <Section key="sec1HP" className={classes.section1} id="home">
           <div className={classes.title}>
             <h1>CRYPTO RECORDS</h1>
-            <Typography className={classes.textSec1} variant="p">
+            <Typography key="typsec1HP"className={classes.textSec1} variant="p">
               Join us for stay tuned to last Crypto values!
             </Typography>
-            <Button onClick={openSignUp} variant="outline-light">
+            <Button key="butonsec1HP" onClick={openSignUp} variant="outline-light">
               GET STARTED
             </Button>{" "}
           </div>
           <div className={classes.banner}>
-            <Banner />
+            <Banner key="banner" />
           </div>
         </Section>
 
-        <Section className={classes.section2} id="about">
+        <Section key="sec2HP" className={classes.section2} id="about">
           <div className={classes.sect2coin}>
-            <Infocoin />{" "}
+            <Infocoin key="infoCoin" />{" "}
             <PlotHomePage
+              key="plotHP"
               crypto="bitcoin"
               bkcolor="black"
               bordercolor="black"
@@ -358,7 +363,7 @@ function HomePage() {
           
         </Section>
 
-        <Section className={classes.section3} id="faqs">
+        <Section key="sec3HP" className={classes.section3} id="faqs">
         <div className={classes.sect3info}>
             <h4 style={{ padding: "10px" }}>
               FIND NEW FRIENDS IN THE USERS DATABASE!
