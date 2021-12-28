@@ -90,7 +90,7 @@ const CryptoPage = () => {
     getCrypt();
   }, []);
 
-  if (!crypt) return <h1></h1>;
+  if (!crypt) return <h1>Loading ...</h1>;
 
   return (
     <>

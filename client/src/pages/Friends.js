@@ -12,7 +12,7 @@ import Publish from "../components/Publish";
 const useStyles = makeStyles((theme) => ({
   friends: {
     paddingTop: "120px",
-    minHeight: "600px",
+    //minHeight: "600px",
     width: "100%",
     minHeight: 1080,
     backgroundColor: "white",

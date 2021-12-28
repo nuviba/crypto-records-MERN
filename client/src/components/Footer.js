@@ -25,7 +25,7 @@ const Footer = () => {
       <MDBFooter color="#4B515D" className={classes.footer}>
         <MDBContainer>
           <a href="https://www.linkedin.com/in/nuviba/">
-            <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" />
+            <img src="https://img.icons8.com/ios-filled/50/000000/linkedin.png" alt="linkedin" />
           </a>
         </MDBContainer>
 
@@ -34,7 +34,7 @@ const Footer = () => {
         </MDBContainer>
         <MDBContainer>
           <a href="https://github.com/nuviba/CryptoRecords">
-            <img src="https://img.icons8.com/fluency/48/000000/github.png" />{" "}
+            <img src="https://img.icons8.com/fluency/48/000000/github.png" alt="github" />{" "}
           </a>
         </MDBContainer>
       </MDBFooter>

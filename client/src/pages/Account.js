@@ -3,7 +3,6 @@ import { React, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 import { UserContext } from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 
 //------------IMPORT INTERNAL COMPONENTS------------
 import Header from "../components/Header";

@@ -195,7 +195,7 @@ useEffect(function () {
                         return (
                           <TableRow className={classes.row}>
                             <TableCell className={classes.cell}>
-                              {userLogged.favs.indexOf(crypto.id) == -1 ? (
+                              {userLogged.favs.indexOf(crypto.id) === -1 ? (
                                 <Icon
                                   className={classes.starEmpty}
                                   onClick={addFav}

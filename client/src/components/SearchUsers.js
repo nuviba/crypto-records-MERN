@@ -109,7 +109,7 @@ const SearchUsers = () => {
     return (
       <div className={classes.userFound}>
         <p className={classes.userName}>@{retuser.username}</p>
-        {userLogged.friends.indexOf(retuser.username) == -1 ? (
+        {userLogged.friends.indexOf(retuser.username) === -1 ? (
           <Icon
             style={{ cursor: "pointer" }}
             color="black"

@@ -204,7 +204,7 @@ function HomePage() {
 
   //componente para mostrar la información de una moneda de la sección2
   function Infocoin() {
-    if (!crypt) return <h1></h1>;
+    if (!crypt) return <h1>Loading ...</h1>;
     return (
       <div className={classes.coin}>
         <img src={crypt.image.large} alt={crypt.name} height="100" />
@@ -237,7 +237,7 @@ function HomePage() {
     const section3 = useScrollSection("faqs");
 
     const [value, setValue] = useState("1");//estado para controlar la sección activa 
-    const handleChange = (nv) => {
+    const handleChange = (e, nv) => {
       setValue(nv);
     };
 

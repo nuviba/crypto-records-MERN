@@ -151,7 +151,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
             >
               Delete
             </Button>
-          ) : pub.likes.indexOf(userLogged.username) == -1 ? (
+          ) : pub.likes.indexOf(userLogged.username) === -1 ? (
             <Icon
               color="black"
               icon="thumbs-up"
@@ -184,7 +184,7 @@ const PublicationsBoard = ({ refresh, setRefresh }) => {
       const publist = pubs.filter(
         (pub) =>
           userLogged.friends.indexOf(pub.username) !== -1 ||
-          userLogged.username == pub.username
+          userLogged.username === pub.username
       );
       //filtramos para mostrar las publicaciones solo de nuestros following
       const publistFriends = publist.map((e) => {

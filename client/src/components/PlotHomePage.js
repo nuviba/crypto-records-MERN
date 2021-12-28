@@ -30,8 +30,6 @@ const useStyles = makeStyles((theme) => ({
   sec2: {
     width: "90%",
     flexDirection: "column",
-    alignItems: "center",
-
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -69,7 +67,7 @@ const PlotHomePage = ({ crypto, bordercolor, bkcolor }) => {
     getData();
   }, [days]);
 
-  if (!dataCrypt) return <h1></h1>;
+  if (!dataCrypt) return <h1>Loading ...</h1>;
   return (
     <>
       <div className={classes.sec2}>

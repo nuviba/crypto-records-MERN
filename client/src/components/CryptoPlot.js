@@ -70,7 +70,7 @@ const CryptoPlot = ({ crypto, bordercolor, bkcolor }) => {
     getData();
   }, [days]); //repetimos el fetch cada vez que el estado days cambia
 
-  if (!dataCrypt) return <h1></h1>;
+  if (!dataCrypt) return <h1>Loading ...</h1>;
   return (
     <>
       <div className={classes.sec2}>

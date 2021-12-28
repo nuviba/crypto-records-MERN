@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 //componente para devolver tabla de monedas favoritas
 function FavPage() {
   const classes = useStyles();
-  const { userLogged, setPage } = useContext(UserContext);
+  const { setPage } = useContext(UserContext);
 
   //estados para guardar las monedas favoritas
   const [favlist, setFavlist] = useState([]);
